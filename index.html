@@ -1,0 +1,1999 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#05070f">
+<meta name="format-detection" content="telephone=no">
+<title>괴담에 떨어져도 출근을 해야 하는구나 · 신입사원 생존 매뉴얼 (팬게임)</title>
+<style>
+  /* =========================================================
+     괴담에 떨어져도 출근을 해야 하는구나 · 팬메이드
+     팔레트: 심야 네이비/먹빛 바탕 · 창백한 시안 포인트 · 크림슨 경고 · 종이(사내문서) 대비
+     ========================================================= */
+  :root{
+    --bg:#05070f;
+    --bg2:#070c17;
+    --night:#0a1120;
+    --panel:#0c1526;
+    --panel2:#101b30;
+    --line:#1b2841;
+    --line2:#2a3d5e;
+    --ink:#e8eefb;
+    --ink2:#c6d2e6;
+    --dim:#8b99b8;
+    --faint:#5d6a89;
+    --ice:#b6f0ff;
+    --cyan:#5fd8ff;
+    --cyan-deep:#1f7fa6;
+    --crimson:#ff4257;
+    --crimson-deep:#b31e33;
+    --amber:#ffc978;
+    --violet:#b39dff;
+    --rose:#ff9fb6;
+    --mint:#a8e6c9;
+    --paper:#e9dfc9;
+    --paper2:#d3c6a8;
+    --paper-ink:#241f18;
+    --paper-red:#9e2731;
+    --sans:"Pretendard","Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",system-ui,-apple-system,sans-serif;
+    --mono:ui-monospace,SFMono-Regular,Menlo,"D2Coding","IBM Plex Mono",Consolas,monospace;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    background:
+      radial-gradient(1200px 720px at 50% -16%, rgba(95,216,255,.14), rgba(95,216,255,0) 62%),
+      radial-gradient(900px 520px at 106% 4%, rgba(179,157,255,.10), rgba(179,157,255,0) 58%),
+      radial-gradient(800px 640px at -12% 74%, rgba(31,127,166,.12), rgba(31,127,166,0) 62%),
+      linear-gradient(180deg,#05070f 0%,#070c17 46%,#040610 100%);
+    background-repeat:no-repeat;
+    background-size:cover;
+    color:var(--ink);
+    font-family:var(--sans);
+    font-size:16px;
+    line-height:1.65;
+    letter-spacing:-0.01em;
+    min-height:100vh;
+    overflow-x:hidden;
+    overscroll-behavior-y:none;
+  }
+  /* 스크린톤(할프톤) 질감 */
+  body::before{
+    content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+    background-image:radial-gradient(rgba(182,240,255,.13) .9px, rgba(0,0,0,0) 1.1px);
+    background-size:4px 4px;opacity:.42;
+  }
+  /* 비네트 */
+  body::after{
+    content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+    background:radial-gradient(125% 92% at 50% 42%, rgba(0,0,0,0) 52%, rgba(0,0,0,.62) 100%);
+  }
+  .wrap{position:relative;z-index:1;max-width:720px;margin:0 auto;padding:0 16px 44px}
+  [hidden]{display:none !important}
+  button{font-family:inherit}
+  ::selection{background:rgba(95,216,255,.28);color:#fff}
+
+  /* ============ HUD ============ */
+  header#hud{
+    position:sticky;top:0;z-index:40;
+    background:linear-gradient(180deg,rgba(5,7,15,.97),rgba(6,10,20,.84));
+    -webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);
+    border-bottom:1px solid var(--line);
+    box-shadow:0 16px 40px -34px #000;
+  }
+  .hud-in{max-width:720px;margin:0 auto;padding:9px 16px 8px}
+  .hud-top{display:flex;align-items:center;gap:8px;flex-wrap:nowrap}
+  .brand{display:inline-flex;align-items:center;gap:5px;font-family:var(--mono);font-size:.58rem;letter-spacing:.2em;color:var(--faint);white-space:nowrap;min-width:0}
+  .brand b{color:var(--ice);font-weight:700;letter-spacing:.1em}
+  .brand .sub{color:var(--faint);letter-spacing:.12em;overflow:hidden;text-overflow:ellipsis}
+  .clock{margin-left:auto;font-family:var(--mono);font-size:.62rem;color:var(--faint);display:flex;gap:5px;align-items:baseline;white-space:nowrap;flex:none}
+  .clock b{color:var(--ice);font-size:.84rem;letter-spacing:.03em;text-shadow:0 0 14px rgba(95,216,255,.55)}
+  .hud-btns{display:flex;gap:5px;flex:none}
+  .hbtn{
+    font-family:var(--sans);font-size:.66rem;font-weight:600;letter-spacing:-.02em;
+    color:var(--ink2);background:rgba(95,216,255,.06);
+    border:1px solid var(--line2);border-radius:8px;
+    padding:5px 7px;cursor:pointer;transition:.16s;white-space:nowrap;
+    display:inline-flex;align-items:center;gap:4px;
+    touch-action:manipulation;-webkit-user-select:none;user-select:none;
+  }
+  .hbtn:active{transform:scale(.97)}
+  .hbtn:hover{color:#fff;border-color:#41708f;background:rgba(95,216,255,.13)}
+  .hbtn .bg{font-family:var(--mono);font-size:.56rem;color:#04121a;background:var(--cyan);border-radius:20px;padding:0 4px;font-weight:700;line-height:1.5}
+  .hbtn.manual{color:#ffd9a8;border-color:#4a3a22;background:rgba(255,201,120,.08)}
+  .hbtn.manual:hover{background:rgba(255,201,120,.16);border-color:#6a5330;color:#ffe9c9}
+  .hud-stats{display:flex;align-items:center;gap:12px;margin-top:7px;flex-wrap:wrap;font-family:var(--mono);font-size:.6rem;color:var(--faint)}
+  .stat{display:flex;align-items:center;gap:6px;min-width:0}
+  .stat label{letter-spacing:.08em;color:var(--faint);white-space:nowrap}
+  .stat b{color:var(--ink);font-size:.76rem;font-weight:600}
+  .bar{width:66px;height:5px;background:#131c2d;border-radius:3px;overflow:hidden;position:relative;flex:none}
+  .bar i{display:block;height:100%;width:100%;background:linear-gradient(90deg,#1f7fa6,#5fd8ff);box-shadow:0 0 8px rgba(95,216,255,.6);transition:width .5s cubic-bezier(.2,.7,.2,1),background .4s}
+  .bar.low i{background:linear-gradient(90deg,#a87a35,var(--amber));box-shadow:0 0 8px rgba(255,201,120,.5)}
+  .bar.crit i{background:linear-gradient(90deg,#8c1626,var(--crimson));box-shadow:0 0 10px rgba(255,66,87,.7);animation:pulseBar 1.05s infinite}
+  @keyframes pulseBar{50%{opacity:.5}}
+  .stagebar{height:3px;background:#0e1524;margin-top:8px;border-radius:3px;overflow:hidden}
+  .stagebar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#1f7fa6,#5fd8ff 70%,#b6f0ff);box-shadow:0 0 10px rgba(95,216,255,.85);transition:width .5s cubic-bezier(.2,.7,.2,1)}
+
+  /* ============ SCREENS ============ */
+  main{position:relative;z-index:1}
+  .screen{animation:fadeUp .5s ease both}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:none}}
+
+  /* ---------- 표지 ---------- */
+  #screen-title{padding:18px 0 6px;min-height:calc(100vh - 130px);display:flex;flex-direction:column;justify-content:center}
+  @supports (min-height:100svh){ #screen-title{min-height:calc(100svh - 130px)} }
+  .cover{
+    position:relative;overflow:hidden;
+    border:2px solid #2b4066;border-radius:5px;
+    background:
+      radial-gradient(120% 95% at 50% 112%, rgba(31,127,166,.5), rgba(31,127,166,0) 62%),
+      radial-gradient(90% 62% at 18% -4%, rgba(182,240,255,.2), rgba(182,240,255,0) 58%),
+      linear-gradient(180deg,#070d1a 0%,#0b1830 56%,#050a14 100%);
+    padding:28px 20px 24px;
+    box-shadow:0 40px 90px -60px #000, inset 0 0 70px rgba(95,216,255,.07);
+  }
+  .cover::before{
+    content:"";position:absolute;inset:0;pointer-events:none;
+    background-image:radial-gradient(rgba(182,240,255,.17) 1px, rgba(0,0,0,0) 1.2px);
+    background-size:5px 5px;opacity:.5;
+    -webkit-mask-image:linear-gradient(180deg,#000,rgba(0,0,0,.25) 70%,rgba(0,0,0,0));
+    mask-image:linear-gradient(180deg,#000,rgba(0,0,0,.25) 70%,rgba(0,0,0,0));
+  }
+  .cover::after{
+    content:"";position:absolute;left:0;right:0;top:0;height:1px;
+    background:linear-gradient(90deg,transparent,rgba(182,240,255,.5),transparent);
+  }
+  .ghost13{
+    position:absolute;right:-8px;bottom:-34px;pointer-events:none;
+    font-family:var(--mono);font-weight:800;font-size:8.6rem;line-height:.8;
+    color:rgba(182,240,255,.055);letter-spacing:-.08em;
+    text-shadow:0 0 44px rgba(95,216,255,.18);
+  }
+  .vert{
+    position:absolute;top:22px;right:13px;pointer-events:none;
+    writing-mode:vertical-rl;text-orientation:upright;
+    font-family:var(--mono);font-size:.56rem;letter-spacing:.3em;
+    color:rgba(182,240,255,.4);
+  }
+  .kicker{
+    display:inline-flex;align-items:center;gap:8px;position:relative;z-index:1;
+    font-family:var(--mono);font-size:.56rem;letter-spacing:.3em;color:var(--faint);
+    margin-bottom:14px;
+  }
+  .kicker::before{content:"";width:16px;height:1px;background:var(--cyan);box-shadow:0 0 8px var(--cyan)}
+  h1.title{
+    position:relative;z-index:1;
+    font-size:clamp(1.6rem,7.4vw,2.55rem);line-height:1.3;margin:0;font-weight:800;letter-spacing:-0.048em;
+    text-shadow:0 2px 0 rgba(0,0,0,.55);
+  }
+  h1.title .l1{display:block;color:#f0f5ff}
+  h1.title .l2{display:block;color:var(--ice);text-shadow:0 0 26px rgba(95,216,255,.4),0 0 64px rgba(95,216,255,.16)}
+  h1.title .l2 b{font-weight:800;color:var(--crimson);text-shadow:0 0 26px rgba(255,66,87,.55),0 0 60px rgba(255,66,87,.22)}
+  .subtitle{
+    position:relative;z-index:1;font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;
+    color:var(--dim);margin:12px 0 18px;padding-bottom:16px;
+    border-bottom:1px solid rgba(182,240,255,.12);
+  }
+  .intro{position:relative;z-index:1;color:#bcc9df;font-size:.9rem;line-height:1.85;margin:0 0 7px;letter-spacing:-0.012em}
+  .intro em{font-style:normal;color:var(--amber);text-shadow:0 0 16px rgba(255,201,120,.3)}
+  .intro b{color:#eaf2ff;font-weight:700}
+
+  /* 사원증 */
+  .idcard{
+    position:relative;z-index:1;margin:20px 0 4px;max-width:400px;
+    border:1px solid var(--line2);border-radius:12px;overflow:hidden;
+    background:linear-gradient(150deg,#0e1a2e,#0a1220 58%,#0d1c30);
+    box-shadow:0 34px 70px -56px #000, inset 0 1px 0 rgba(182,240,255,.16);
+  }
+  .idcard::after{
+    content:"";position:absolute;inset:0;pointer-events:none;
+    background:linear-gradient(115deg,rgba(182,240,255,.075) 0%,transparent 38%,transparent 62%,rgba(255,66,87,.05) 100%);
+  }
+  .idcard-top{display:flex;align-items:center;gap:8px;padding:9px 13px;border-bottom:1px dashed #22314e;background:rgba(95,216,255,.05)}
+  .idcard-top .k{font-family:var(--mono);font-size:.54rem;letter-spacing:.24em;color:var(--cyan);opacity:.9}
+  .idcard-top .no{margin-left:auto;font-family:var(--mono);font-size:.62rem;color:var(--dim);letter-spacing:.08em}
+  .idcard-body{padding:11px 13px 13px}
+  .row{display:flex;gap:10px;align-items:baseline;padding:5px 0;font-family:var(--mono);font-size:.7rem;border-bottom:1px solid rgba(255,255,255,.05)}
+  .row:last-child{border-bottom:none}
+  .row > span{color:var(--faint);width:56px;flex:none;letter-spacing:.1em;font-size:.62rem}
+  .row div{color:#d8e4f6;letter-spacing:.05em}
+  .row div .lv{color:var(--cyan);font-weight:700}
+  .blink{display:inline-block;width:3px;height:11px;margin-left:5px;background:var(--cyan);vertical-align:-1px;animation:blink 1.15s steps(1) infinite;opacity:.75;box-shadow:0 0 8px rgba(95,216,255,.7)}
+  @keyframes blink{50%{opacity:0}}
+
+  .cta{
+    display:flex;align-items:center;justify-content:center;gap:9px;width:100%;position:relative;
+    margin-top:14px;padding:15px 16px;border-radius:10px;cursor:pointer;
+    font-family:var(--sans);font-size:1rem;font-weight:800;letter-spacing:-0.015em;
+    color:#03131c;background:linear-gradient(180deg,#c8f6ff,#5fd8ff 60%,#31b4de);
+    border:1px solid #d9f8ff;
+    box-shadow:0 16px 44px -22px rgba(95,216,255,.95), inset 0 -2px 0 rgba(3,40,60,.16);
+    transition:transform .16s, box-shadow .16s, filter .16s;
+    touch-action:manipulation;-webkit-user-select:none;user-select:none;
+  }
+  .cta:hover{filter:brightness(1.06)}
+  .cta:active{transform:translateY(1px) scale(.995)}
+  .cta .k{font-family:var(--mono);font-size:.58rem;letter-spacing:.2em;opacity:.62}
+  .cta.ghost{
+    background:transparent;color:var(--ink2);border:1px solid var(--line2);
+    box-shadow:none;font-weight:600;font-size:.85rem;
+  }
+  .cta.ghost:hover{color:#fff;border-color:#41708f;background:rgba(95,216,255,.07)}
+  .title-btns{margin-top:2px}
+
+  /* 실행 안내(JS 차단 시에만 남는 문구) */
+  .open-hint{
+    display:flex;gap:8px;align-items:flex-start;
+    margin:11px 0 0;padding:9px 11px;border-radius:9px;
+    border:1px dashed #58431f;background:rgba(255,201,120,.08);
+    color:#f2d7a8;font-size:.75rem;line-height:1.62;font-weight:500;
+  }
+  .open-hint .ic{font-family:var(--mono);font-size:.68rem;color:#ffd79a;flex:none;margin-top:1px}
+  .open-hint b{color:#ffe9c9;font-weight:700}
+  .title-foot{margin-top:18px;font-size:.68rem;line-height:1.85;color:var(--faint);font-family:var(--mono);letter-spacing:0}
+  .title-foot b{color:var(--dim);font-weight:600}
+  .mini-stamp{
+    display:inline-block;align-self:flex-start;margin-top:14px;padding:4px 9px;border:1px solid #4d2430;color:#c9575f;
+    font-family:var(--mono);font-size:.56rem;letter-spacing:.16em;transform:rotate(-2deg);border-radius:2px;
+  }
+
+  /* ---------- 게임 ---------- */
+  #screen-game{padding:16px 0 8px}
+  .cut{
+    position:relative;
+    border:1px solid var(--line2);border-left:3px solid var(--cyan);
+    border-radius:4px 12px 12px 4px;
+    background:linear-gradient(180deg,rgba(16,27,48,.9),rgba(8,14,26,.94));
+    padding:15px 15px 17px;
+    box-shadow:0 30px 70px -58px #000, inset 0 0 46px rgba(95,216,255,.05);
+  }
+  .cut::before{
+    content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+    background-image:radial-gradient(rgba(182,240,255,.11) .8px, rgba(0,0,0,0) 1px);
+    background-size:4px 4px;opacity:.22;
+    -webkit-mask-image:linear-gradient(180deg,#000,rgba(0,0,0,0) 62%);
+    mask-image:linear-gradient(180deg,#000,rgba(0,0,0,0) 62%);
+  }
+  .scene-meta{position:relative;display:flex;align-items:center;gap:7px;flex-wrap:wrap;font-family:var(--mono);font-size:.58rem;letter-spacing:.14em;color:var(--faint);margin-bottom:9px}
+  .scene-meta .place{color:var(--cyan);opacity:.92;letter-spacing:.04em;font-size:.62rem}
+  .scene-meta .dot{width:3px;height:3px;border-radius:50%;background:var(--line2);flex:none}
+  .cast{position:relative;display:flex;gap:5px;flex-wrap:wrap;margin:0 0 11px}
+  .tag{font-size:.61rem;font-weight:700;letter-spacing:-0.01em;padding:2px 8px;border-radius:20px;border:1px solid;background:rgba(255,255,255,.03);white-space:nowrap}
+  .tag.me{color:#dce7f9;border-color:#35486e;background:rgba(220,231,249,.06)}
+  .tag.cy{color:var(--cyan);border-color:#235572;background:rgba(95,216,255,.09)}
+  .tag.am{color:var(--amber);border-color:#5a4526;background:rgba(255,201,120,.09)}
+  .tag.vi{color:var(--violet);border-color:#3f3370;background:rgba(179,157,255,.09)}
+  .tag.ro{color:var(--rose);border-color:#5e2f3c;background:rgba(255,159,182,.09)}
+  .tag.mi{color:var(--mint);border-color:#2c5346;background:rgba(168,230,201,.09)}
+  h2.scene-title{
+    position:relative;font-size:clamp(1.14rem,5.2vw,1.46rem);line-height:1.42;
+    margin:0 0 13px;padding-left:13px;font-weight:800;letter-spacing:-0.035em;color:#f0f6ff;
+  }
+  h2.scene-title::before{
+    content:"";position:absolute;left:0;top:.24em;bottom:.24em;width:3px;border-radius:2px;
+    background:linear-gradient(180deg,var(--cyan),#1f7fa6);box-shadow:0 0 12px rgba(95,216,255,.75);
+  }
+  #scene-text{position:relative;color:#c9d5e8;font-size:.945rem;line-height:1.92;letter-spacing:-0.004em}
+  #scene-text p{margin:0 0 12px;opacity:0;animation:fadeUp .5s ease forwards}
+  #scene-text p:last-child{margin-bottom:0}
+  #scene-text p b{color:#f1f6ff;font-weight:700}
+  #scene-text p .hl{color:var(--amber);text-shadow:0 0 16px rgba(255,201,120,.25)}
+  #scene-text .dq{color:#bdf2ff;text-shadow:0 0 18px rgba(95,216,255,.32)}
+
+  /* 웹툰 대사창 */
+  #scene-text .bubble{
+    position:relative;margin:13px 0 16px 3px;max-width:96%;
+    padding:11px 14px 12px;border-radius:14px 14px 14px 4px;
+    background:linear-gradient(180deg,#f2f8ff,#dcebfa);
+    color:#0b1526;font-size:.915rem;line-height:1.72;font-weight:600;letter-spacing:-0.012em;
+    border:1px solid rgba(182,240,255,.7);
+    box-shadow:0 16px 36px -28px rgba(0,0,0,.95), 0 0 24px -14px rgba(95,216,255,.7);
+    opacity:0;animation:fadeUp .5s ease forwards;
+  }
+  #scene-text .bubble .dq{color:#0d3d57;text-shadow:none}
+  #scene-text .bubble::before{
+    content:"";position:absolute;left:14px;bottom:-8px;width:0;height:0;
+    border-right:11px solid transparent;border-top:9px solid #dcebfa;
+  }
+
+  /* 소품: 쪽지 / 사내문서 */
+  .prop{position:relative;margin:15px 0 2px}
+  .memo-card{
+    position:relative;transform:rotate(-1.1deg);
+    border:1px solid #b9a985;border-radius:3px;
+    background:linear-gradient(180deg,#f2e9d3,#e2d7bb);
+    color:#2a2721;padding:14px 14px 12px;
+    box-shadow:0 20px 44px -34px #000, inset 0 0 0 1px rgba(255,255,255,.5);
+  }
+  .memo-card .tape{position:absolute;top:-8px;left:50%;transform:translateX(-50%) rotate(.6deg);width:62px;height:15px;background:rgba(255,255,255,.42);border:1px solid rgba(0,0,0,.07);box-shadow:0 2px 6px rgba(0,0,0,.13)}
+  .memo-card .from{font-family:var(--mono);font-size:.52rem;letter-spacing:.22em;color:#8b7a58;margin-bottom:6px}
+  .memo-card .txt{font-size:.88rem;line-height:1.66;font-weight:700;letter-spacing:0.005em}
+  .doc-card{
+    border:1px solid #35486e;border-radius:6px;
+    background:linear-gradient(180deg,#0f1a2c,#0a1220);
+    padding:12px 13px 13px;box-shadow:0 22px 54px -46px #000;
+  }
+  .doc-card .head{display:flex;align-items:center;gap:7px;border-bottom:1px dashed #26364f;padding-bottom:7px;margin-bottom:9px;font-family:var(--mono);font-size:.56rem;letter-spacing:.1em;color:var(--faint)}
+  .doc-card .head .bd{color:var(--crimson);border:1px solid #4d2430;border-radius:3px;padding:0 4px;font-size:.5rem;letter-spacing:.16em}
+  .doc-card .ttl{font-size:.85rem;font-weight:800;color:#eaf2ff;margin-bottom:5px;letter-spacing:-0.02em}
+  .doc-card p{margin:0;font-size:.81rem;line-height:1.72;color:#aebbcf}
+  .doc-card p b{color:#e2ecfb}
+  .doc-card .sig{margin-top:7px;font-family:var(--mono);font-size:.55rem;color:var(--faint);text-align:right;letter-spacing:.06em}
+
+  /* 기록(선택 결과) */
+  #outcome{position:relative;margin:16px 0 2px}
+  .record{
+    position:relative;border:1px solid #33455f;border-left:3px solid var(--amber);
+    border-radius:0 10px 10px 0;padding:12px 14px;
+    background:linear-gradient(180deg,rgba(255,201,120,.08),rgba(255,201,120,.015));
+    animation:fadeUp .35s ease both;
+  }
+  .record.bad{border-left-color:var(--crimson);background:linear-gradient(180deg,rgba(255,66,87,.1),rgba(255,66,87,.015))}
+  .record.good{border-left-color:var(--cyan);background:linear-gradient(180deg,rgba(95,216,255,.09),rgba(95,216,255,.015))}
+  .record .lbl{display:flex;align-items:center;gap:7px;font-family:var(--mono);font-size:.55rem;letter-spacing:.2em;color:var(--faint);margin-bottom:7px}
+  .record .lbl i{font-style:normal;color:var(--dim)}
+  .record .lbl::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,rgba(255,255,255,.14),transparent)}
+  .record p{margin:0;color:#d0dbec;font-size:.9rem;line-height:1.82}
+  .record p b{color:#f2f7ff}
+  .record .dq{color:#bdf2ff}
+  .deltas{display:flex;gap:5px;flex-wrap:wrap;margin-top:10px}
+  .delta{font-family:var(--mono);font-size:.64rem;padding:2px 7px;border-radius:20px;border:1px solid;letter-spacing:.02em;font-weight:600}
+  .delta.plus{color:var(--cyan);border-color:#26506b;background:rgba(95,216,255,.09)}
+  .delta.minus{color:var(--crimson);border-color:#4d2724;background:rgba(255,66,87,.09)}
+  .delta.item{color:var(--violet);border-color:#3a2f57;background:rgba(179,157,255,.09)}
+  .delta.warn{color:var(--amber);border-color:#463a24;background:rgba(255,201,120,.09)}
+
+  /* 선택지 */
+  #choices{display:flex;flex-direction:column;gap:8px;margin-top:17px}
+  .choice{
+    position:relative;display:flex;gap:10px;width:100%;text-align:left;align-items:flex-start;
+    background:linear-gradient(180deg,#111c2f,#0b1322);
+    border:1px solid #26364f;border-radius:10px;
+    padding:12px 13px;color:#e4ecfa;font:inherit;font-size:.9rem;line-height:1.56;font-weight:500;
+    cursor:pointer;transition:border-color .16s,transform .14s,box-shadow .16s,background .16s;
+    animation:fadeUp .4s ease both;
+    touch-action:manipulation;-webkit-user-select:none;user-select:none;
+  }
+  .choice::before{
+    content:"";position:absolute;left:0;top:9px;bottom:9px;width:2px;border-radius:2px;
+    background:linear-gradient(180deg,var(--cyan),#1f7fa6);opacity:.32;transition:opacity .16s,box-shadow .16s;
+  }
+  .choice:hover:not(.locked),.choice:active:not(.locked){
+    border-color:#3f7a9c;background:linear-gradient(180deg,#14243a,#0c1526);
+    transform:translateY(-1px);box-shadow:0 14px 36px -28px rgba(95,216,255,.95);
+  }
+  .choice:hover:not(.locked)::before,.choice:active:not(.locked)::before{opacity:1;box-shadow:0 0 10px rgba(95,216,255,.85)}
+  .choice .num{
+    font-family:var(--mono);font-size:.62rem;color:var(--faint);font-weight:700;
+    border:1px solid #26364f;border-radius:5px;padding:1px 5px;flex:none;margin-top:1px;transition:.16s;
+  }
+  .choice:hover:not(.locked) .num{color:var(--cyan);border-color:#3a7fa3;background:rgba(95,216,255,.1)}
+  .choice .txt{flex:1;min-width:0}
+  .choice .req{display:block;font-family:var(--mono);font-size:.6rem;color:var(--amber);margin-top:4px;letter-spacing:.02em;opacity:.9}
+  .choice.locked{opacity:.42;cursor:not-allowed;background:repeating-linear-gradient(135deg,#0b1322,#0b1322 7px,#0d1728 7px,#0d1728 14px)}
+  .choice.locked::before{opacity:.12}
+  .choice.locked .txt{text-decoration:line-through;text-decoration-color:#3c4a63}
+  .choice .arrow{color:var(--faint);font-family:var(--mono);font-size:.8rem;margin-top:1px;opacity:0;transition:.16s}
+  .choice:hover:not(.locked) .arrow{opacity:1;color:var(--cyan);transform:translateX(2px)}
+
+  .continue-row{margin-top:14px;display:flex;gap:8px}
+  .continue-row .cta{max-width:270px;margin-top:0}
+  .hintline{font-family:var(--mono);font-size:.59rem;color:var(--faint);margin-top:14px;letter-spacing:.02em;line-height:1.8}
+  .hintline b{color:#ffd9a8;font-weight:500}
+
+  /* ---------- 엔딩 ---------- */
+  #screen-ending{padding:22px 0 8px}
+  .end-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:4px}
+  .end-code{font-family:var(--mono);font-size:.58rem;letter-spacing:.34em;color:var(--faint);padding-top:6px}
+  .end-name{font-size:clamp(1.9rem,9vw,2.9rem);font-weight:800;letter-spacing:-0.05em;line-height:1.12;margin:5px 0 6px;color:#f4f8ff}
+  .end-sub{font-family:var(--mono);font-size:.64rem;letter-spacing:.16em;color:var(--cyan);margin-bottom:20px;text-shadow:0 0 18px rgba(95,216,255,.4)}
+  .end-stamp{
+    flex:none;padding:6px 11px;border:2px solid #b03140;color:#ff6a78;
+    font-family:var(--mono);font-size:.72rem;letter-spacing:.2em;transform:rotate(-7deg);border-radius:3px;
+    box-shadow:inset 0 0 0 1px rgba(255,106,120,.25),0 0 34px rgba(255,66,87,.18);opacity:.92;
+  }
+  .end-body{position:relative;color:#c9d5e8;font-size:.945rem;line-height:1.92}
+  .end-body p{margin:0 0 13px;opacity:0;animation:fadeUp .55s ease forwards}
+  .end-body p:last-child{color:#98a7c2}
+  .end-body .dq{color:#bdf2ff}
+  .stats{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(98px,1fr));gap:1px;
+    background:#22314e;border:1px solid #22314e;border-radius:10px;overflow:hidden;margin:24px 0 6px;
+  }
+  .stats div{background:#0b1424;padding:10px 11px}
+  .stats span{display:block;font-family:var(--mono);font-size:.55rem;letter-spacing:.12em;color:var(--faint);margin-bottom:3px}
+  .stats b{font-size:.98rem;color:#e9f1ff;font-weight:700;font-family:var(--mono);letter-spacing:.02em}
+  .newbadge{
+    display:inline-flex;align-items:center;gap:7px;margin:12px 0 0;padding:6px 11px;border-radius:20px;
+    border:1px solid #5a4526;background:rgba(255,201,120,.1);color:var(--amber);
+    font-family:var(--mono);font-size:.62rem;letter-spacing:.05em;
+  }
+  .newbadge.dim{border-color:#2b3a54;background:rgba(255,255,255,.03);color:var(--dim)}
+  .end-actions{display:flex;flex-direction:column;gap:8px;margin-top:22px;max-width:330px}
+
+  .page-foot{margin:26px 0 0;font-family:var(--mono);font-size:.56rem;line-height:1.9;color:#3f4b66;letter-spacing:.02em}
+
+  /* ============ 수칙서 (사내문서 = 종이) ============ */
+  .scrim{
+    position:fixed;inset:0;background:rgba(2,4,9,.74);z-index:50;
+    opacity:0;pointer-events:none;transition:opacity .28s;
+    -webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);
+  }
+  .scrim.open{opacity:1;pointer-events:auto}
+  .drawer{
+    position:fixed;top:0;right:0;height:100vh;height:100dvh;width:min(440px,100%);
+    z-index:60;display:flex;flex-direction:column;
+    background:linear-gradient(180deg,#ece2cc,#dbcfb2);
+    color:var(--paper-ink);border-left:1px solid #b9a985;
+    transform:translateX(101%);transition:transform .3s cubic-bezier(.22,.8,.24,1);
+    box-shadow:-40px 0 90px -40px #000;
+  }
+  .drawer.open{transform:none}
+  .drawer-head{
+    position:relative;flex:none;padding:14px 45px 12px 16px;
+    border-bottom:2px solid #2a251d;
+    background:linear-gradient(180deg,rgba(255,255,255,.4),rgba(255,255,255,0));
+  }
+  .drawer-head .k{font-family:var(--mono);font-size:.52rem;letter-spacing:.3em;color:#7d6c4c}
+  .drawer-head h2{margin:5px 0 3px;font-size:1rem;font-weight:800;letter-spacing:-0.035em;color:#1d1912}
+  .drawer-head .m{font-family:var(--mono);font-size:.56rem;color:#8a5a2a;letter-spacing:.05em}
+  .drawer-head .close{
+    position:absolute;top:12px;right:12px;background:rgba(255,255,255,.4);
+    border:1px solid #b3a281;color:#5a4c34;width:29px;height:29px;border-radius:6px;
+    cursor:pointer;font-size:.86rem;line-height:1;padding:0;
+  }
+  .drawer-head .close:hover{background:#fff;color:#1d1912}
+  .drawer-body{overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;padding:4px 16px 26px;flex:1}
+  .rule{padding:11px 0 12px;border-bottom:1px dashed #b8a988}
+  .rule .no{font-family:var(--mono);font-size:.58rem;letter-spacing:.14em;color:var(--paper-red);font-weight:700}
+  .rule h3{font-size:.85rem;margin:3px 0 4px;color:#1c1812;font-weight:800;letter-spacing:-0.02em}
+  .rule p{margin:0;font-size:.82rem;line-height:1.72;color:#3a342a}
+  .rule p b{color:#131009;font-weight:800}
+  .rule p.small{font-family:var(--mono);font-size:.7rem;color:#6b5c40;margin-top:5px;letter-spacing:.01em}
+  .rule .red{color:var(--paper-red);font-weight:800}
+  .redacted{background:#241f18;color:transparent;border-radius:2px;-webkit-user-select:none;user-select:none}
+  .today{margin:13px 0 6px;padding:11px 12px;border:1px solid var(--paper-red);border-radius:3px;background:rgba(158,39,49,.06)}
+  .today .k{font-family:var(--mono);font-size:.54rem;letter-spacing:.2em;color:var(--paper-red);margin-bottom:5px;font-weight:700}
+  .today p{margin:0;font-size:.82rem;color:#41301f;line-height:1.68}
+  .drawer-foot{
+    flex:none;padding:10px 16px 16px;border-top:1px solid #b8a988;
+    font-family:var(--mono);font-size:.55rem;line-height:1.75;color:#6f6047;letter-spacing:.01em;
+  }
+
+  /* ============ 모달 ============ */
+  .modal{
+    position:fixed;inset:0;z-index:70;display:flex;align-items:center;justify-content:center;padding:16px;
+    opacity:0;pointer-events:none;transition:opacity .24s;
+    background:rgba(2,4,9,.62);
+  }
+  .modal.open{opacity:1;pointer-events:auto}
+  .modal .sheet{
+    position:relative;width:100%;max-width:540px;
+    max-height:84vh;max-height:84dvh;overflow-y:auto;-webkit-overflow-scrolling:touch;
+    background:linear-gradient(180deg,#0f1a2c,#0a1220);
+    border:1px solid #2f4066;border-radius:14px;
+    padding:18px 18px 20px;
+    box-shadow:0 44px 110px -50px #000, inset 0 1px 0 rgba(182,240,255,.13);
+    transform:translateY(8px) scale(.99);transition:.24s;
+  }
+  .modal.open .sheet{transform:none}
+  .sheet h2{margin:0 0 3px;font-size:1.02rem;letter-spacing:-0.03em;color:#f0f6ff}
+  .sheet .sub{font-family:var(--mono);font-size:.58rem;letter-spacing:.12em;color:var(--faint);margin-bottom:15px}
+  .sheet .close{
+    position:absolute;top:12px;right:12px;background:rgba(255,255,255,.04);
+    border:1px solid var(--line2);color:var(--dim);width:29px;height:29px;border-radius:6px;
+    cursor:pointer;font-size:.86rem;line-height:1;padding:0;
+  }
+  .sheet .close:hover{color:#fff;border-color:#41708f}
+  .inv-group{margin-bottom:15px}
+  .inv-group .k{font-family:var(--mono);font-size:.56rem;letter-spacing:.18em;color:var(--faint);margin-bottom:7px}
+  .inv-item{display:flex;gap:9px;padding:8px 0;border-bottom:1px dashed #1c2a42}
+  .inv-item:last-child{border-bottom:none}
+  .inv-item .ic{font-family:var(--mono);font-size:.54rem;color:var(--cyan);border:1px solid #26506b;border-radius:4px;padding:1px 4px;height:fit-content;flex:none;margin-top:1px;letter-spacing:.08em}
+  .inv-item.clue .ic{color:var(--rose);border-color:#5e2f3c}
+  .inv-item .n{font-size:.85rem;color:#e6edf9;font-weight:600}
+  .inv-item .d{font-size:.76rem;color:#93a2bd;line-height:1.6;margin-top:2px}
+  .empty{color:var(--faint);font-size:.8rem;padding:5px 0}
+  .loglist{list-style:none;margin:0;padding:0;font-family:var(--mono);font-size:.68rem;line-height:1.95;color:#8b99b8}
+  .loglist li{border-bottom:1px dashed #1a263c;padding:3px 0}
+  .loglist li b{color:var(--amber);font-weight:500;margin-right:6px}
+
+  .ar-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  @media(max-width:520px){.ar-grid{grid-template-columns:1fr}}
+  .ar-card{
+    position:relative;overflow:hidden;border:1px solid #26364f;border-radius:9px;
+    padding:11px 12px;background:#0b1424;min-height:92px;
+  }
+  .ar-card.on{border-color:#2f6a86;background:linear-gradient(180deg,rgba(95,216,255,.08),rgba(95,216,255,.015))}
+  .ar-card.on::after{content:"";position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--cyan);box-shadow:0 0 12px var(--cyan)}
+  .ar-card .code{font-family:var(--mono);font-size:.56rem;letter-spacing:.16em;color:var(--faint)}
+  .ar-card .nm{font-size:.88rem;font-weight:700;margin:4px 0 2px;color:#e9f1ff;letter-spacing:-0.02em}
+  .ar-card .sb{font-size:.7rem;color:var(--dim)}
+  .ar-card .hint{font-family:var(--mono);font-size:.57rem;color:#57647f;margin-top:6px;line-height:1.5}
+  .ar-card.lock .nm{color:#5c6a86}
+  .ar-card.lock .sb{color:#4e5a75}
+  .ar-prog{display:flex;align-items:center;gap:9px;margin:0 0 14px;font-family:var(--mono);font-size:.64rem;color:var(--dim)}
+  .ar-prog .bar{flex:1;width:auto;height:4px}
+  .ar-prog .bar i{background:linear-gradient(90deg,#1f7fa6,var(--cyan))}
+  .mini-btn{
+    font-family:var(--mono);font-size:.58rem;color:var(--faint);background:none;
+    border:1px solid var(--line2);border-radius:5px;padding:4px 8px;cursor:pointer;margin-top:14px;
+    touch-action:manipulation;
+  }
+  .mini-btn:hover{color:var(--crimson);border-color:#5c2a2f}
+  .store-note{margin-top:12px;font-family:var(--mono);font-size:.56rem;line-height:1.7;color:#c98f4a;letter-spacing:.01em}
+
+  /* 확인 모달 */
+  .confirm-body p{margin:0 0 10px;font-size:.88rem;line-height:1.75;color:#c6d2e6}
+  .confirm-row{display:flex;gap:8px;margin-top:16px}
+  .confirm-row .cta{margin-top:0;font-size:.88rem;padding:12px}
+  .cta.danger{background:linear-gradient(180deg,#ff8590,#e02a41 62%,#b31e33);border-color:#ffb3bb;color:#26040a;box-shadow:0 16px 40px -24px rgba(255,66,87,.9)}
+
+  .toast{
+    position:fixed;left:50%;bottom:22px;transform:translate(-50%,14px);z-index:90;
+    background:rgba(12,21,36,.97);border:1px solid #3a5f7c;color:#dfe9f8;font-size:.78rem;
+    padding:9px 14px;border-radius:22px;opacity:0;transition:.25s;pointer-events:none;
+    max-width:88vw;text-align:center;box-shadow:0 20px 44px -26px #000;
+  }
+  .toast.on{opacity:1;transform:translate(-50%,0)}
+
+  /* 실행 실패 배너 */
+  #fatal{
+    position:fixed;left:10px;right:10px;top:10px;z-index:120;
+    border:1px solid #5c2a2f;border-radius:10px;background:rgba(28,8,14,.97);
+    color:#ffc2c8;padding:11px 13px;font-size:.76rem;line-height:1.6;
+    box-shadow:0 24px 60px -30px #000;
+  }
+  #fatal b{display:block;color:#ff8d98;font-size:.78rem;margin-bottom:3px;letter-spacing:0}
+  #fatal .x{position:absolute;top:8px;right:9px;background:none;border:none;color:#ffb0b9;font-size:.9rem;cursor:pointer;padding:2px 4px}
+
+  .corner{position:fixed;left:12px;bottom:10px;z-index:0;font-family:var(--mono);font-size:.54rem;letter-spacing:.18em;color:#2f3a52;pointer-events:none}
+  .corner .dot{display:inline-block;width:5px;height:5px;border-radius:50%;background:#8a2531;margin-right:5px;animation:blink 2.6s infinite}
+
+  @media(max-width:640px){
+    .wrap{padding:0 13px 40px}
+    .hud-in{padding:8px 13px 7px}
+    .brand .sub{display:none}
+    .clock{font-size:.58rem}
+    .hbtn{padding:5px 6px;font-size:.62rem}
+    .hbtn .bg{font-size:.52rem}
+    .hud-stats{gap:10px;row-gap:5px}
+    #screen-title{padding-top:10px}
+    .cover{padding:24px 16px 20px}
+    .vert{display:none}
+    .ghost13{font-size:7rem;bottom:-26px}
+    #scene-text{font-size:.92rem;line-height:1.9}
+    .choice{padding:11px 12px;font-size:.875rem}
+    .drawer{width:100%}
+    .end-stamp{transform:rotate(-3deg)}
+    .corner{display:none}
+    .open-hint{font-size:.72rem}
+  }
+  @media(max-width:360px){
+    .brand{font-size:.52rem}
+    .hbtn{font-size:.58rem;padding:5px}
+    .stat b{font-size:.7rem}
+    .bar{width:52px}
+  }
+  @media(prefers-reduced-motion:reduce){
+    *{animation:none !important;transition:none !important}
+    #scene-text p,.end-body p{opacity:1}
+  }
+</style>
+</head>
+<body>
+
+<header id="hud">
+  <div class="hud-in">
+    <div class="hud-top">
+      <div class="brand"><b>백일몽</b><span class="sub">주식회사 · 13F</span></div>
+      <div class="clock"><span id="hud-day">DAY 1</span><b id="hud-time">07:59</b></div>
+      <div class="hud-btns">
+        <button type="button" class="hbtn manual" id="btn-manual">수칙서</button>
+        <button type="button" class="hbtn" id="btn-inv">소지품<b class="bg" id="inv-count">0</b></button>
+        <button type="button" class="hbtn" id="btn-arch">도감</button>
+      </div>
+    </div>
+    <div class="hud-stats">
+      <div class="stat">
+        <label>정신력</label>
+        <div class="bar" id="sanity-bar"><i id="sanity-fill" style="width:100%"></i></div>
+        <b id="sanity-val">100</b>
+      </div>
+      <div class="stat"><label>인사평가</label><b id="score-val">0</b><span>pt</span></div>
+      <div class="stat"><label>단서</label><b id="clue-val">0</b></div>
+    </div>
+    <div class="stagebar"><i id="stage-fill"></i></div>
+  </div>
+</header>
+
+<div class="wrap">
+  <main>
+    <!-- ================= 표지 ================= -->
+    <section id="screen-title" class="screen">
+      <div class="cover">
+        <div class="ghost13">13</div>
+        <div class="vert">당신을 괴담으로 초대합니다</div>
+        <div class="kicker">신입사원 필독</div>
+        <h1 class="title">
+          <span class="l1">괴담에 떨어져도</span>
+          <span class="l2"><b>출근</b>을 해야 하는구나</span>
+        </h1>
+        <div class="subtitle">— 백일몽 주식회사 신입사원 생존 매뉴얼 · 팬메이드 —</div>
+
+        <p class="intro">어제, 당신은 취업했다. 연봉도 복지도 좋다. 직속 상사도 친절하다.</p>
+        <p class="intro">오늘은 첫 출근이다. 그리고 이 회사에는 <em>사내 수칙서</em>가 있다.<br>수칙서는 매일 갱신된다. 어제의 조항은 오늘 존재하지 않을 수 있다.</p>
+
+        <div class="idcard">
+          <div class="idcard-top">
+            <span class="k">EMPLOYEE PASS</span>
+            <span class="no">17-0417</span>
+          </div>
+          <div class="idcard-body">
+            <div class="row"><span>사원번호</span><div>17-0417</div></div>
+            <div class="row"><span>부서</span><div>원료개발부 · 현장탐사팀 D조</div></div>
+            <div class="row"><span>권한</span><div>신입 · 열람등급 <span class="lv">D</span><span class="blink"></span></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="title-btns">
+        <button type="button" class="cta" id="btn-start">출근 등록<span class="k">08:00</span></button>
+        <button type="button" class="cta ghost" id="btn-arch2">엔딩 도감 열기</button>
+      </div>
+
+      <div class="open-hint" id="open-hint">
+        <span class="ic">!</span>
+        <span>버튼이 반응하지 않으면 오른쪽 위 <b>공유 아이콘 → ‘Safari에서 열기’</b>로 실행해 주세요. (앱 내 미리보기는 스크립트를 막는 경우가 있습니다)</span>
+      </div>
+
+      <div class="title-foot">
+        <b>플레이 방법</b> · 선택지로 하루를 보냅니다. 수칙서는 언제든 열어 볼 수 있습니다.<br>
+        <b>수집 요소</b> · 엔딩 6종은 이 기기에 저장됩니다(브라우저 저장소).<br>
+        원작 백덕수 · 웹툰 캐롯스튜디오/쓩늉. 본 게임은 팬메이드 체험용으로, 원작의 텍스트와 이미지를 사용하지 않았습니다.
+      </div>
+      <div class="mini-stamp">본 문서는 열람 후 폐기하지 마십시오</div>
+    </section>
+
+    <!-- ================= 게임 ================= -->
+    <section id="screen-game" class="screen" hidden>
+      <div class="cut">
+        <div class="scene-meta">
+          <span id="scene-chapter">DAY 1 · 07:59</span>
+          <span class="dot"></span>
+          <span class="place" id="scene-place">사택 302호</span>
+        </div>
+        <div class="cast" id="scene-cast"></div>
+        <h2 class="scene-title" id="scene-title">302호, 마지막 월요일</h2>
+        <div id="scene-text"></div>
+        <div id="props"></div>
+        <div id="outcome" hidden></div>
+      </div>
+      <div id="choices"></div>
+      <div class="continue-row" id="continue-row" hidden></div>
+      <div class="hintline" id="hintline">수칙서가 기억나지 않으면 상단 <b>수칙서</b>를 여십시오. (키보드 1–4로도 선택)</div>
+    </section>
+
+    <!-- ================= 엔딩 ================= -->
+    <section id="screen-ending" class="screen" hidden>
+      <div class="end-head">
+        <div class="end-code" id="end-code">ENDING E-01</div>
+        <div class="end-stamp" id="end-stamp">퇴근</div>
+      </div>
+      <h1 class="end-name" id="end-name">정시 퇴근</h1>
+      <div class="end-sub" id="end-sub">무사 퇴근 엔딩</div>
+      <div class="end-body" id="end-body"></div>
+      <div class="stats" id="end-stats"></div>
+      <div id="end-new"></div>
+      <div class="end-actions">
+        <button type="button" class="cta" id="btn-again">다시 출근하기</button>
+        <button type="button" class="cta ghost" id="btn-arch3">엔딩 도감</button>
+      </div>
+    </section>
+  </main>
+
+  <div class="page-foot">
+    BAEKILMONG CO. INTRANET · 17-0417 · 본 화면은 사내 열람용입니다<br>
+    팬메이드 · 원작 「괴담에 떨어져도 출근을 해야 하는구나」 (백덕수)
+  </div>
+</div>
+
+<div class="corner"><span class="dot"></span>REC · 13F</div>
+
+<!-- ================= 수칙서 ================= -->
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" aria-hidden="true">
+  <div class="drawer-head">
+    <button type="button" class="close" id="drawer-close" aria-label="닫기">✕</button>
+    <div class="k">EMPLOYEE MANUAL</div>
+    <h2>백일몽 주식회사 사내 수칙서</h2>
+    <div class="m">17기 신입사원 배포용 · 열람등급 D</div>
+  </div>
+  <div class="drawer-body" id="drawer-body"></div>
+  <div class="drawer-foot">
+    최종 갱신: 오늘 04:00 · 인사팀<br>
+    본 수칙서의 무단 복제 및 반출은 금지됩니다.<br>
+    당신은 이 조항을 읽는 동안에도 회사에 고용되어 있습니다.
+  </div>
+</aside>
+
+<!-- ================= 소지품 ================= -->
+<div class="modal" id="modal-inv">
+  <div class="sheet">
+    <button type="button" class="close" data-close="modal-inv" aria-label="닫기">✕</button>
+    <h2>소지품 및 단서</h2>
+    <div class="sub">PERSONAL EFFECTS · 17-0417</div>
+    <div id="inv-body"></div>
+  </div>
+</div>
+
+<!-- ================= 엔딩 도감 ================= -->
+<div class="modal" id="modal-arch">
+  <div class="sheet">
+    <button type="button" class="close" data-close="modal-arch" aria-label="닫기">✕</button>
+    <h2>엔딩 도감</h2>
+    <div class="sub">ENDING ARCHIVE · 이 기기 저장</div>
+    <div class="ar-prog"><span id="ar-count">0 / 6</span><div class="bar"><i id="ar-fill" style="width:0"></i></div></div>
+    <div class="ar-grid" id="ar-grid"></div>
+    <div id="store-note"></div>
+    <button type="button" class="mini-btn" id="btn-arch-reset">도감 기록 초기화</button>
+  </div>
+</div>
+
+<!-- ================= 확인 ================= -->
+<div class="modal" id="modal-confirm">
+  <div class="sheet" style="max-width:360px">
+    <h2 id="confirm-title">확인</h2>
+    <div class="sub">CONFIRM</div>
+    <div class="confirm-body"><p id="confirm-msg"></p></div>
+    <div class="confirm-row">
+      <button type="button" class="cta danger" id="confirm-yes">지우기</button>
+      <button type="button" class="cta ghost" id="confirm-no">취소</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<div id="fatal" hidden>
+  <button type="button" class="x" id="fatal-x" aria-label="닫기">✕</button>
+  <b>스크립트가 중단되었습니다</b>
+  <span id="fatal-msg">페이지를 새로 열어 주세요.</span>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* =========================================================
+     GAME DATA
+     ========================================================= */
+  var ITEMS = {
+    badge:{n:"사원증", k:"item", d:"17-0417 · 현장탐사팀 D조. 뒷면에 아주 작은 글씨가 눌려 있다. 「본 사원증은 회수 대상이 아닙니다.」"},
+    memo:{n:"룸메이트의 메모", k:"clue", d:"「도망쳐. 그리고 13층에서는 절대 내리지 마.」 잉크가 아직 마르지 않았다."},
+    diary:{n:"전 입주자의 수첩", k:"clue", d:"마지막 장. 「13층에서 내렸다. 문이 세 번 울리면 세 번째에 열어야 한다. 나는 네 번째에 열었다.」"},
+    collector:{n:"꿈결 수집기", k:"item", d:"사람에게만 반응하는 플라스틱 실린더. 잃어버리면 내 포인트로 물어내야 한다."},
+    card:{n:"접힌 명함", k:"item", d:"010-0153-24865. 인쇄된 것은 전화번호뿐. 손으로 만지면 눌린 글씨가 느껴진다. 「9급」."},
+    matches:{n:"성냥갑", k:"item", d:"구내식당 아주머니가 준 것. 「불 쓸 일 있으면 써.」 성냥은 세 개뿐이다."},
+    candle:{n:"켜진 초", k:"item", d:"저택의 안내 기계에 낸 요금. 아직 타고 있다. 이 초가 꺼지면 요금을 다시 내야 한다."},
+    receipt:{n:"영수증", k:"clue", d:"「17:59 퇴근 예정 / 반납 완료」. 어둠이 인정한 퇴근 시각이 여기에 찍혀 있다."},
+    note1204:{n:"1204호의 수첩 장", k:"clue", d:"「13층에서는 내리지 마세요. 저는 내렸어요.」 6년 전 날짜가 함께 적혀 있다."},
+    note:{n:"개인 노트", k:"clue", d:"오늘 만난 어둠 두 개를 적었다. 손이 떨려서 글씨가 비뚤다. Qterw-F-243 / 저택."},
+    doc:{n:"재난관리국 협조 요청서", k:"clue", d:"이자헌 조장이 준 서류. 수신처가 회사가 아니다. 「초자연 재난관리국 · 협조 요청」."}
+  };
+
+  var RULES = [
+    {no:"제0조", t:"예외", b:"요금을 요구하는 존재에게는 이름도, 신체도 주지 않는다. 요금은 <b>소지품</b>으로 대신한다. 소지품이 없다면 그 자리에서 돌아선다."},
+    {no:"제1조", t:"출근", b:"사옥 엘리베이터에 13층 버튼은 없다. 13층에 도착하면 <b>문이 열리기 전에 12층 버튼</b>을 누른다. 13층에서 엘리베이터를 타는 것은 금지한다."},
+    {no:"제2조", t:"신분", b:"사원증은 목에 건다. 사원증을 <b>먼저</b> 보여 주는 사람은 사원이 아니다."},
+    {no:"제3조", t:"인사", b:"이름은 회사가 부를 때만 답한다. 사원증을 타인에게 건네는 것은 <b>신분 양도</b>로 간주한다."},
+    {no:"제4조", t:"신고식", b:"신입사원은 첫날 반드시 홀로 어둠에 들어간다. 거부권은 없다. 이는 정규직 전환 절차이며, <span class='red'>포인트는 지급되지 않는다.</span>"},
+    {no:"제5조", t:"꿈결", b:"꿈결 수집기는 사람에게만 반응한다. 수집기의 눈금이 저절로 차오르면, 당신 외에 <b>사람이 한 명 더</b> 있다는 뜻이다."},
+    {no:"제6조", t:"선택", b:"선택지의 큰 글씨만 읽지 않는다. 「그냥 살기」 아래 <b>작은 글씨</b>를 확인한다.", s:"─ 사망 시 발생하는 비용은 본인 부담"},
+    {no:"제7조", t:"냉장고", b:"어둠 속 냉장고 문은 열지 않는다. 물이 필요하면 계산대에 요청한다. 문을 열면 <span class='redacted'>████████████</span>."},
+    {no:"제8조", t:"종료", b:"어둠의 종료 조건은 영업시간이다. 계산대에서 <b>영수증</b>을 출력하고, 영수증에 찍힌 시각을 당신의 퇴근 시각으로 인정한다."},
+    {no:"제9조", t:"공실", b:"'공실' 안내판이 걸린 방의 초인종은 세 번 울린다. <b>세 번째가 울리기 전에 문을 연다.</b> 네 번째 울음에는 대답하지 않는다."},
+    {no:"제10조", t:"식당", b:"'오늘의 손님' 메뉴는 주문하지 않는다. 직원은 [백반]을 요청한다. 아주머니께 <b>성냥</b>을 청해도 좋다."},
+    {no:"제11조", t:"야간", b:"22시 이후, 소등된 층에서 <b>불이 켜진 방</b>은 당신을 위한 것이 아니다. 문을 열지 않는다. 지나가는 것은 허용된다."},
+    {no:"제12조", t:"통신", b:"사내 번호가 아닌 전화는 받지 않는다. 받았을 경우, 상대가 <b>먼저 이름을 말할 때까지</b> 침묵한다."},
+    {no:"제13조", t:"퇴근", b:"퇴근 시각은 회사가 정한다. 정시 퇴근을 원하는 사원은 당일 수집한 <b>꿈결을 전량 반납</b>한다."},
+    {no:"제14조", t:"가면", b:"가면은 외근 시에만 쓴다. 가면을 쓴 동료가 당신의 <b>이름을 부르면</b> 대답하지 않는다."},
+    {no:"제15조", t:"수칙서", b:"본 수칙서는 매일 갱신된다. 어제의 조항은 오늘 존재하지 않을 수 있다. <span class='red'>수칙서에 없는 일이 일어나면, 수칙서를 탓하지 마라.</span>"}
+  ];
+
+  var ENDINGS = {
+    e_offwork:{
+      code:"E-01", name:"정시 퇴근", sub:"무사 퇴근 엔딩", stamp:"퇴근", grade:"A",
+      hint:"수칙을 지키며 하루를 버티면",
+      body:[
+        "23시 정각, 사택 골목. 형광등 아래 서 있던 사람은 없었다. 뒤돌아보지 않은 덕이다.",
+        "다음 날 아침, 사원증을 게이트에 대자 리더기가 열린다. 「17-0417 · 정상 출근」. 어제의 어둠 두 개는 어디에도 기록되어 있지 않다. 기록은 회사가 한다.",
+        "은하제가 커피를 내밀고, 박민성이 서류를 넘긴다. 평범한 하루가 시작된다. 어제와 똑같은.",
+        "다만 사원증 뒷면, 17-0417 아래에 어제는 없던 작은 글씨가 새겨져 있다. 「1일차 통과」."
+      ]
+    },
+    e_promotion:{
+      code:"E-02", name:"초고속 승진", sub:"수석 사원 엔딩", stamp:"승진", grade:"S",
+      hint:"인사평가를 최고로 끌어올리면",
+      body:[
+        "월요일 아침, 13층 사무실의 책상이 하나 늘어 있다. 명패에는 내 이름, 직급은 주임. 입사 이틀 만이다.",
+        "은하제가 커피를 내밀며 말한다. \"축하해. 이 회사에서 이틀 만에 승진한 사람은… 글쎄, 나도 못 봤어.\" 박민성은 아무 말 없이 내 어깨를 두 번 친다.",
+        "꿈결 반납 기록에는 내 이름이 없다. 인사평가표 비고란에는 이렇게 적혀 있다. 「규정 준수 우수. 다만, 회사가 파악하지 못한 것이 하나 있음.」",
+        "그날 밤, 사택 302호 식탁 위에 다시 메모지가 놓인다. — 「축하해. 이제 네가 도망칠 차례야.」"
+      ]
+    },
+    e_warning:{
+      code:"E-03", name:"시말서", sub:"징계 엔딩", stamp:"징계", grade:"C",
+      hint:"성과는 낮은데 위반은 적으면",
+      body:[
+        "다음 날 오전, 인사팀에서 호출이 온다. 책상 위에 시말서 양식이 놓여 있다. 위반 조항이 여섯 개, 그중 두 개는 내가 읽지 못한 조항이다.",
+        "\"본인은 어제 13층에서…\" 인사팀 담당자가 읽다 말고 고개를 든다. \"이 조항, 오늘 아침에 신설됐는데요. 어떻게 위반하셨어요?\" 나는 대답하지 않는다. 「제15조」.",
+        "징계는 감봉 3개월. 그리고 특이사항 한 줄. 「재교육 대상 — 수칙서 재독 권고」.",
+        "사택으로 돌아가는 길, 골목 형광등 아래에서 누군가 나를 기다리고 있었다. 그 얼굴은 어제 로비의 안내데스크 직원과 같았다. \"재교육은 저희 쪽에서 합니다.\""
+      ]
+    },
+    e_lost:{
+      code:"E-04", name:"괴담 실종", sub:"실종 엔딩", stamp:"실종", grade:"F",
+      hint:"정신력을 모두 잃거나, 사원증을 건네면",
+      body:[
+        "사원증을 건넨 순간, 나는 나를 잃었다. 정확히는, 회사가 나를 잃었다.",
+        "다음 날 아침 사원증 리더기에는 아무 기록도 남지 않는다. 13층 D조의 책상 하나가 비어 있고, 아무도 그 자리가 비었다고 말하지 않는다.",
+        "사택 302호 식탁 위에는 메모지가 한 장 놓여 있다. — 「도망쳐. 그리고 13층에서는 절대 내리지 마.」",
+        "그 글씨는 내 글씨다."
+      ]
+    },
+    e_lastteam:{
+      code:"E-05", name:"마무리팀 배속", sub:"최하위 배속 엔딩", stamp:"배속", grade:"D",
+      hint:"규정을 네 번 이상 위반하고 살아남으면",
+      body:[
+        "다음 날 인사발령. 「현장탐사팀 D조 → 마무리팀 X조. 사유: 규정 미준수 및 판단력 부족.」 X조에는 조장이 없다. 평사원이 조장 노릇을 하고, 아무도 그를 조장이라고 부르지 않는다.",
+        "X조 사무실은 1층 구석, 창문이 없다. 책상 위에는 이미 명패가 놓여 있다. 내 이름이 새겨진, 아주 얇은.",
+        "\"환영해요.\" 누군가 말한다. 고개를 들면 아무도 없다. 다만 벽에 표어가 붙어 있다. 「안전제일」. '안' 자가 빨갛다.",
+        "이 회사에서 가장 빨리 퇴사하는 사람들이 이 방에 온다. 가장 늦게 오는 사람은, 영원히."
+      ]
+    },
+    e_agency:{
+      code:"E-06", name:"재난관리국 스카우트", sub:"숨겨진 엔딩", stamp:"스카우트", grade:"S+",
+      hint:"명함과 단서 세 개를 챙겨, 마지막에 전화를 걸면",
+      body:[
+        "전화를 끊지 않았다. 상대가 먼저 이름을 말했기 때문이다. 「제12조 — 상대가 먼저 이름을 말할 때까지 침묵한다.」",
+        "이튿날 오후, 구내식당 구석에서 낯선 남자가 내 앞에 앉는다. 명함을 밀어 놓는다. 초자연 재난관리국, 9급. 명함 뒷면에는 어제 내가 1204호 문 아래로 밀어 넣었던 그 글씨가 있다.",
+        "\"백일몽에서 첫날을 살아서 걸어 나온 사람은 드물어요. 특히 로비까지 내려와서 전화를 건 사람은 더.\" 그가 말한다. \"저희 쪽으로 오실 생각 없으세요? 급여는… 글쎄요, 회사보다 적을 겁니다. 대신 퇴근은 보장됩니다.\"",
+        "나는 대답 대신 사원증을 만지작거린다. 17-0417. 아직 반납하지 않았다. 「퇴근은 보장됩니다」라는 말이, 이상하게 오래 남았다."
+      ]
+    }
+  };
+
+  var ARCH_KEY = "bdm_ghost_commute_archive_v1";
+
+  var NODES = {
+
+    n01:{
+      d:1, time:"07:59", chapter:"DAY 1 · 출근 준비", place:"사택 302호 · 현관",
+      title:"302호, 마지막 월요일",
+      p:[
+        "월요일 07시 59분. 복도 형광등이 하나 죽어서 현관문 앞만 어둡다.",
+        "어제 입사 서류에 서명한 기억은 선명한데, 그다음부터는 잘 떠오르지 않는다. 사원증은 식탁 위에 놓여 있다. 사원번호 <b>17-0417</b>, 부서는 현장탐사팀 D조. 기억보다 사원증이 더 정확하다.",
+        "룸메이트의 방문이 반쯤 열려 있다. 이불은 사람이 막 일어난 모양인데, 방은 비어 있다. 식탁에는 접힌 메모지가 하나. — <span class='hl'>'도망쳐. 그리고 13층에서는 절대 내리지 마.'</span>"
+      ],
+      choices:[
+        {label:"사원증을 목에 걸고, 메모를 접어 주머니에 넣는다", to:"n02",
+         fx:{score:5, items:["badge","memo"]},
+         outcome:"사원증 걸이의 금속이 목덜미에 닿는다. 차갑다. 메모지의 잉크가 손끝에 살짝 묻어났다. 「제2조 — 사원증은 목에 건다.」"},
+        {label:"메모는 버리고 사원증만 챙긴다", to:"n02",
+         fx:{sanity:-5, items:["badge"]},
+         outcome:"메모지는 구겨져 쓰레기통으로 들어갔다. 현관을 나서는데, 등 뒤에서 쓰레기통 뚜껑이 한 번 더 열리는 소리가 났다. 바람일 리가 없는데."},
+        {label:"룸메이트의 방에 들어가 본다", to:"n02",
+         fx:{sanity:-8, score:3, items:["badge","diary"]},
+         outcome:"책상 서랍에 낡은 수첩이 있다. 마지막 장. 「전 입주자. 3년 차. 13층에서 내렸다. 문이 세 번 울리면 세 번째에 열어야 한다. 나는 네 번째에 열었다.」 사원증도 챙겼다."}
+      ]
+    },
+
+    n02:{
+      d:2, time:"08:12", chapter:"DAY 1 · 08:12", place:"백일몽 사옥 · 1층 로비",
+      title:"13층 버튼이 없다",
+      p:[
+        "로비는 생각보다 밝다. 천장 높이 3층, 대리석 바닥에 회사 로고가 박혀 있다. 「당신의 꿈을 수집합니다.」",
+        "사원증을 리더기에 대자 게이트가 열린다. 화면에 초록 글씨. 「17-0417 · 현장탐사팀 D조 · 금일 정상 출근」",
+        "엘리베이터는 세 대. 버튼은 1층부터 30층까지 빼곡한데, <b>13 다음은 14</b>다. 13층 버튼이 없다. 게시판에는 「13층은 계단 이용 바랍니다」가 붙어 있고, 그 아래 누군가 볼펜으로 덧썼다. — '내리지 마.'"
+      ],
+      choices:[
+        {label:"엘리베이터를 타고 12층에서 내린 뒤, 계단으로 한 층 올라간다", to:"n03",
+         fx:{score:8},
+         outcome:"12층에서 내리자 문이 닫히기 전, 엘리베이터 안쪽 거울에 13층 버튼이 잠깐 비쳤다. 계단 한 층. 13층 철문에는 '현장탐사팀' 팻말이 붙어 있다. 「제1조」가 맞았다."},
+        {label:"14층을 누르고, 13층에 서면 그냥 내린다", to:"n03",
+         fx:{sanity:-30, score:-10, violation:true, items:[]},
+         outcome:"13층에서 문이 열린다. 복도가 보인다. 복도 끝에 누군가 서서 이쪽을 보고 있다. 12층 버튼을 눌렀지만, 문이 닫히기까지 그 형체는 한 발짝도 움직이지 않았다. 손끝이 저리다."},
+        {label:"계단만 이용한다. 1층에서 13층까지", to:"n03",
+         fx:{sanity:-12, score:4},
+         outcome:"열세 층. 계단참마다 층 번호가 적혀 있는데, 12층 다음 계단참의 숫자는 13이 아니라 다시 12였다. 같은 12층을 두 번 오른 셈인데, 철문은 13층이라고 말하고 있다."},
+        {label:"안내데스크에 13층이 어디 있냐고 묻는다", to:"n03",
+         fx:{sanity:-8, score:-2},
+         outcome:"안내데스크의 여직원이 웃는다. 얼굴은 웃는데 눈이 따라오지 않는다. \"13층은 없습니다. 저희 건물은 12층과 14층 사이가 비어 있어요.\" 명찰에는 김하늘 인턴. 어제 오리엔테이션 사회자도 같은 명찰을 달고 있었다."}
+      ]
+    },
+
+    n03:{
+      d:3, time:"08:58", chapter:"DAY 1 · 08:58", place:"13층 · 현장탐사팀 D조",
+      title:"신고식에는 거부권이 없다",
+      p:[
+        "13층 사무실은 생각보다 평범하다. 책상 여섯 개, 커피머신, 벽에 걸린 '안전제일' 표어. 표어의 '안' 자만 빨갛다.",
+        "송골매 가면을 벽에 걸어 둔 여자가 커피를 내민다. <b>은하제</b>, 대리. 옆자리에서 체대생 같은 남자가 손을 흔든다. <b>박민성</b>, 주임.",
+        "조장 <b>이자헌</b>은 외근이라고 한다. 은하제가 태블릿을 밀어 준다. 화면에는 큼직한 글씨. <span class='hl'>[이거 하고 2000만 원 받기]</span> / <span class='hl'>[그냥 살기]</span>"
+      ],
+      choices:[
+        {label:"\"실례지만, 이거 포인트는 얼마나 들어오나요?\"", to:"n04",
+         fx:{score:10},
+         outcome:"은하제가 커피를 마시다 말고 웃는다. \"질문하는 신입은 오래 살아. 이건 포인트도 월급도 아니야. 신고식.\" 박민성이 작게 덧붙인다. \"D조는 신입이 다 뒤져서 D조라고… 농담이야, 농담.\" 「제4조」"},
+        {label:"[이거 하고 2000만 원 받기]를 누른다", to:"n04",
+         fx:{score:6},
+         outcome:"태블릿이 진동한다. 화면 아래에서 작은 글씨가 올라온다. — 「선택 시 발생하는 모든 결과의 책임은 본인에게 있습니다.」 형광등이 한 번 꺼졌다 켜진다. 그 사이 의자 세 개가 비어 있었다. 「제6조」"},
+        {label:"[그냥 살기]를 누른다", to:"n04",
+         fx:{sanity:-12, score:-4},
+         outcome:"버튼이 눌리지 않는다. 화면이 깜빡이며 문장이 바뀐다. 「그냥 살기 — 단, 퇴근은 회사가 정한다」. 다시 누르자 이번엔 눌렸다. 박민성이 \"아\" 하고 짧게 소리를 낸다. 은하제가 고개를 젓는다. \"그 글씨, 작은 거 읽었어?\""},
+        {label:"태블릿을 뒤집어 전원을 끈다", to:"n04",
+         fx:{sanity:-6, score:-2, violation:true},
+         outcome:"전원이 꺼지지 않는다. 뒤집힌 채로도 화면이 빛나고 있다. 은하제가 태블릿을 집어 들어 내 손에 쥐여 준다. \"신고식은 거부권이 없어. 미안. 진짜로.\""}
+      ]
+    },
+
+    n04:{
+      d:4, time:"09:20", chapter:"DAY 1 · 09:20", place:"어둠 Qterw-F-243 · 편의점",
+      title:"선택해 줘",
+      p:[
+        "눈을 뜨니 편의점이다. 형광등이 규칙적으로 깜빡이고, 냉장고가 낮게 웅웅거린다. 카운터에는 아무도 없다. 시계는 09:20. 문밖은 유리인데, <b>유리 너머로 물이 흐르고 있다.</b>",
+        "휴대폰이 저절로 켜진다. 「선택해 줘 · Qterw-F-243 · 잔여 시간 01:00:00」 그 아래 작은 글씨. 「종료 조건: 영업 종료」",
+        "발밑에 젖은 발자국이 카운터에서 냉장고까지 이어져 있다. 돌아오는 발자국은 없다."
+      ],
+      choices:[
+        {label:"계산대의 포스기를 확인한다", to:"n05",
+         fx:{score:4},
+         outcome:"포스기 화면에 '직원 대기' 세 글자가 깜빡인다. 바코드 리더기 옆에는 사원증을 대 보라는 스티커가 붙어 있다. 누군가 미리 붙여 둔 것처럼 반듯하다."},
+        {label:"냉장고 쪽으로 간다", to:"n05",
+         fx:{sanity:-10},
+         outcome:"냉장고 문 너머로 물소리가 난다. 유리문에 비친 내 뒤쪽, 계산대 옆에 서 있는 형체가 하나. 고개를 돌리면 없을 것이다. 아마."},
+        {label:"CCTV를 향해 손을 흔든다", to:"n05",
+         fx:{sanity:-5, score:6},
+         outcome:"CCTV가 천천히 고개를 숙였다가 다시 든다. 인사 같기도 하고, 고개를 젓는 것 같기도 하다. 잠시 후 카운터의 포스기가 스스로 켜진다."}
+      ]
+    },
+
+    n05:{
+      d:5, time:"09:34", chapter:"DAY 1 · 09:34", place:"편의점 · 계산대",
+      title:"영업 종료까지 46분",
+      p:[
+        "잔여 시간 00:46:00. 카운터 위에는 아무것도 없고, 포스기만 켜져 있다. 영수증 롤이 반쯤 말려 있다.",
+        "냉장고에서는 계속 물소리가 난다. 목이 마르다. 아까부터 목이 마르다.",
+        "유리문 너머의 물이 조금씩 높아지고 있다. 문턱까지 세 뼘 남짓."
+      ],
+      choices:[
+        {label:"사원증 바코드를 포스기에 긁는다", req:"badge", to:"n06",
+         fx:{score:14, items:["receipt"]},
+         outcome:"삑. 화면에 품목이 뜬다. 「꿈결 200ml / 사원 할인 / 결제 수단: 명찰」. 영수증이 인쇄된다. 「17:59 퇴근 예정」. 영수증을 뽑는 순간 편의점의 형광등이 전부 꺼지고, 문이 열린다. 「제8조」"},
+        {label:"영수증 롤을 뜯어 시각을 확인한다", to:"n06",
+         fx:{score:6, items:["receipt"]},
+         outcome:"롤을 뜯자 아직 인쇄되지 않은 종이에 희미하게 눌린 글자가 보인다. 이전 손님이 남긴 것 같다. 「17:59 / 퇴근 / 반납 완료」. 시각을 외운 순간, 문이 열린다. 포스기는 여전히 '직원 대기'다."},
+        {label:"냉장고에서 물을 꺼내 마신다", to:"n06",
+         fx:{sanity:-28, score:-10, violation:true, items:["receipt"]},
+         outcome:"차갑다. 너무 차갑다. 세 번째 모금에서 물병 안쪽이 손가락처럼 접혀 있다는 걸 깨달았다. 병을 놓치고, 손목에 다섯 개의 자국이 남는다. 냉장고 안에서 누군가 물을 마시는 소리가 계속된다. 「제7조」 — 정신이 아득해질 때, 포스기가 저절로 영수증을 뱉는다. 「17:59 퇴근 예정」. 문이 열린다."},
+        {label:"계산대 너머 직원실 문을 두드린다", to:"n06",
+         fx:{sanity:-16, score:-4, items:["receipt"]},
+         outcome:"문 안에서 대답이 없다. 대신 문 아래로 영수증이 한 장 밀려 나온다. 「17:59 퇴근 예정」. 문은 열리지 않는다. 편의점 문은 열려 있다."}
+      ]
+    },
+
+    n06:{
+      d:6, time:"10:41", chapter:"DAY 1 · 10:41", place:"13층 · D조 사무실",
+      title:"한 시간 이십오 분",
+      p:[
+        "사무실로 돌아오자 은하제가 시계를 본다. \"한 시간 이십오 분. 신입 중에 세 번째야.\" 박민성이 커피를 한 잔 더 내민다.",
+        "꿈결 수집기가 책상 위에 놓인다. 플라스틱 실린더, 눈금은 0. \"오늘부터 네 거야. 사람한테만 반응해. 잃어버리면 네 포인트로 물어내는 거야.\"",
+        "박민성이 봉투를 하나 건넨다. \"선물. 사회자가 주더라고. '필요할 시'라고만 적혀 있어.\" 봉투 안에는 가면 하나와, 명함 한 장. <b>010-0153-24865</b>."
+      ],
+      choices:[
+        {label:"수집기를 품에 넣고, 명함을 지갑에 넣는다", to:"n07",
+         fx:{score:4, items:["collector","card"]},
+         outcome:"수집기는 생각보다 무겁다. 명함 뒷면에는 아무것도 인쇄되어 있지 않은데, 손으로 만지면 눌린 글자가 느껴진다. 「9급」."},
+        {label:"봉투의 가면을 바로 써 본다", to:"n07",
+         fx:{sanity:-8, score:-2, items:["collector","card"]},
+         outcome:"가면은 얼굴에 닿는 순간 딱 맞게 붙는다. 시야가 좁아지고, 대신 벽에 붙은 '안전제일'의 '안' 자가 더 선명해진다. 은하제가 가면을 벗기며 말한다. \"외근 때만 써.\" 「제14조」"}
+      ]
+    },
+
+    n07:{
+      d:7, time:"11:02", chapter:"DAY 1 · 11:02", place:"12층 · 1204호 앞",
+      title:"공실",
+      p:[
+        "점심 전, 은하제가 서류를 들고 일어난다. \"12층에 공실 하나 정리해야 돼. 같이 가.\" 엘리베이터는 12층에 선다.",
+        "복도 끝, <b>1204호</b>. 안내판에는 '공실' 두 글자와 '12F-04'가 적혀 있다. 문손잡이에는 먼지가 없고, 문 아래로 불빛이 새어 나온다.",
+        "초인종이 울린다. 한 번. 은하제의 표정이 굳는다. 두 번. \"너, 수칙서 읽었어?\""
+      ],
+      choices:[
+        {label:"세 번째가 울리기 전에 문을 연다", to:"n08",
+         fx:{score:12},
+         outcome:"문고리를 돌리자 잠겨 있지 않다. 「제9조 — 세 번째가 울리기 전에 문을 열고, 네 번째에는 대답하지 않는다.」 은하제가 낮게 말한다. \"잘했어. 대답했으면 네가 대답한 거야.\""},
+        {label:"네 번째 울음에 '네' 하고 대답한다", to:"n08",
+         fx:{sanity:-26, score:-12, violation:true},
+         outcome:"대답은 문 안이 아니라 등 뒤에서 돌아왔다. 정확히 내 목소리로. 은하제가 내 어깨를 잡아 돌린다. 복도는 비어 있다. \"…이번엔 봐준다. 두 번은 없어.\""},
+        {label:"명함을 문 아래로 밀어 넣는다", req:"card", to:"n08",
+         fx:{score:8},
+         outcome:"명함이 문 아래로 사라진다. 잠시 후, 같은 명함이 다시 밀려 나온다. 뒷면에 연필로 눌러쓴 글씨. 「9급. 여기 있었습니다.」 은하제가 명함을 집어 들고 아무 말도 하지 않는다."},
+        {label:"무시하고 계단으로 올라간다", to:"n09",
+         fx:{sanity:-10, score:-4},
+         outcome:"돌아서는 순간 초인종이 세 번째로 울린다. 그 뒤로는 울리지 않는다. 대신 계단을 오르는 내내, 발소리가 하나 더 따라온다."}
+      ]
+    },
+
+    n08:{
+      d:8, time:"11:10", chapter:"DAY 1 · 11:10", place:"1204호 · 안",
+      title:"폐쇄된 지 6년",
+      p:[
+        "방 안은 사무실이다. 책상 하나, 모니터 하나, 그리고 의자에 앉은 사람 하나.",
+        "여자다. 사원증에는 <b>12F-04 김하늘</b>. 아까 로비 안내데스크에서 웃던 그 얼굴이다. 그런데 이 방의 공기에서는 먼지 냄새가 아니라 <b>커피 냄새</b>가 난다. 방금 내린 커피.",
+        "\"어서 오세요.\" 그녀가 서류를 정리하며 말한다. \"여기 폐쇄된 지 육 년 됐다고 들었는데, 저는 아직 퇴근을 못 했어요. 혹시 오늘 며칠이죠?\""
+      ],
+      choices:[
+        {label:"오늘 날짜를 알려 주고, 함께 나가자고 한다", to:"n09",
+         fx:{score:12, sanity:-6, items:["note1204"]},
+         outcome:"그녀가 달력을 본다. 육 년 치가 넘는 날짜가 지워지고, 마지막 장에 오늘 날짜가 적힌다. \"고맙습니다.\" 그녀가 수첩 한 장을 뜯어 준다. 「13층에서는 내리지 마세요. 저는 내렸어요.」 문을 나서는데, 방 안의 커피가 식어 있었다."},
+        {label:"사원증을 확인해 달라고 한다", to:"n09",
+         fx:{sanity:-8, score:6},
+         outcome:"그녀가 사원증을 들어 보인다. 뒷면에 작은 글씨. 「본 사원증은 회수되었습니다.」 그녀는 그것을 읽지 못하는 것 같다. \"이상하죠. 요즘 아무도 저를 못 알아봐요.\""},
+        {label:"아무 말 없이 문을 닫는다", to:"n09",
+         fx:{sanity:-14, score:-6},
+         outcome:"문을 닫자 초인종이 네 번째로 울린다. 이번에는 방 안에서. 은하제가 복도에서 나를 기다리고 있다. \"…괜찮아. 그것도 방법이야.\""}
+      ]
+    },
+
+    n09:{
+      d:9, time:"12:30", chapter:"DAY 1 · 12:30", place:"지하 1층 · 구내식당",
+      title:"오늘의 손님",
+      p:[
+        "구내식당은 붐빈다. 식판 소리, 수저 소리, 그리고 아무도 말하지 않는 소리. 사람들이 다들 고개를 숙이고 먹는다.",
+        "메뉴판. 「오늘의 메뉴 — 제육볶음 / 된장찌개 / <span class='hl'>오늘의 손님</span>」. '오늘의 손님'은 빨간 글씨고, 가격이 비어 있다.",
+        "배식대 아주머니가 국자를 든 채 웃는다. \"오늘의 손님, 한 분~?\""
+      ],
+      choices:[
+        {label:"\"백반 하나 주세요\"", to:"n10",
+         fx:{score:10, sanity:6, items:["matches"]},
+         outcome:"아주머니가 국자를 내려놓고 식판에 계란후라이를 하나 더 얹어 준다. \"잘 골랐어. 오늘은 손님이 한 분 계시거든.\" 성냥갑이 하나 식판 옆에 놓인다. \"불 쓸 일 있으면 써.\" 「제10조」"},
+        {label:"'오늘의 손님'을 주문한다", to:"n10",
+         fx:{sanity:-32, score:-14, violation:true},
+         outcome:"아주머니의 웃음이 조금 더 넓어진다. \"어머, 오늘은 두 분이네.\" 식판이 나온다. 접시 위에는 등갈비찜 대신 손가락 모양의 빵이 다섯 개 놓여 있다. 나는 그것을 먹지 않고 자리로 갔다. 옆자리 직원이 내 식판을 힐끗 보고는 자기 자리를 옮긴다."},
+        {label:"메뉴판을 뒤집어 본다", to:"n10",
+         fx:{sanity:-6, score:6, items:["matches"]},
+         outcome:"뒷면에 손글씨. 「이 자리에 앉지 마. 오늘은 네가 손님이야.」 그 아래, 아주머니 글씨로. 「백반 먹어.」 \"백반 하나요.\" 아주머니가 성냥갑을 얹어 준다."},
+        {label:"식사를 거르고 사무실로 돌아간다", to:"n10",
+         fx:{sanity:-10, score:-2},
+         outcome:"계단을 오르는 동안 배에서 소리가 났다. 13층 사무실의 커피머신이 혼자 돌아가고 있었다. 아무도 잔을 놓지 않았는데."}
+      ]
+    },
+
+    n10:{
+      d:10, time:"15:20", chapter:"DAY 1 · 15:20", place:"어둠 B급 · 눈먼 자들의 저택 · 현관",
+      title:"요금: 눈 하나 또는 귀 하나",
+      p:[
+        "오후 세 시, 은하제가 외근 복장을 갖춘다. \"오늘 하나 더. B급이야. 조장님은 아직 못 오셔서 우리 둘이.\" 12층 회의실 문을 열면 저택 현관이다.",
+        "현관 중앙에 안내 기계가 서 있다. 놋쇠로 된 인형, 사람 키의 절반. 배에 동전 넣는 구멍이 있고, 그 위에 글씨. <b>「요금: 눈 하나 또는 귀 하나」</b>",
+        "기계가 나를 향해 고개를 돌린다. 「요금을 지불하십시오.」"
+      ],
+      choices:[
+        {label:"성냥으로 초를 밝히고, '요금은 불로 내겠습니다'라고 말한다", req:"matches", to:"n11",
+         fx:{score:14, sanity:-6, items:["candle"], flags:{candleLit:true}},
+         outcome:"초에 불이 붙자 기계의 유리 눈이 그 불빛만 반사한다. 「…소지품으로 인정합니다.」 배 속에서 톱니가 돌아가는 소리. 「제0조 — 요금은 소지품으로 대신한다.」"},
+        {label:"눈을 내민다", to:"n11",
+         fx:{sanity:-34, score:-10, flags:{noEye:true}},
+         outcome:"기계의 손이 내 얼굴에 닿았다. 통증은 없었다. 다만 오른쪽 시야가 이상하게 넓어졌다. 은하제가 내 어깨를 잡고 아무 말도 하지 않는다. 거울에 비친 내 얼굴에는 왼쪽 눈이 없다."},
+        {label:"귀를 내민다", to:"n11",
+         fx:{sanity:-26, score:-6, flags:{noEar:true}, items:["matches"]},
+         outcome:"기계가 내 귀를 가져갔다. 소리가 반쯤 사라진다. 은하제의 입이 움직이는데 들리는 건 저택 바닥의 삐걱임뿐이다. 그녀가 내 손에 뭔가를 쥐여 준다. 성냥갑이다."},
+        {label:"기계를 밀치고 저택 안으로 뛴다", to:"n11",
+         fx:{sanity:-22, score:-16, violation:true},
+         outcome:"기계가 뒤로 넘어지며 삐걱거린다. 등 뒤에서 「미납」이라는 소리가 세 번 들린다. 저택 안쪽 계단이 보인다. 은하제가 따라오며 혀를 찬다. \"미납은 나중에 두 배로 와.\""}
+      ]
+    },
+
+    n11:{
+      d:11, time:"15:47", chapter:"DAY 1 · 15:47", place:"저택 · 복도",
+      title:"문이 셋",
+      p:[
+        "복도에는 문이 셋이다. 왼쪽부터 1201, 1202, 1203. 문 아래로 불빛이 새는 것은 하나뿐인데, 어느 문인지 눈으로는 알 수 없다. 불빛이 바닥에 닿는 각도가 계속 바뀐다.",
+        "발밑에서 무언가가 지나간다. 벽지 무늬가 한 번 접혔다 펴진다.",
+        "은하제가 내 뒤에 서서 숨을 죽이고 있다."
+      ],
+      choices:[
+        {label:"초를 낮게 들고 문 아래를 비춰 본다", req:"candle", to:"n12",
+         fx:{score:12},
+         outcome:"불빛이 1202호 문 아래에서 멈춘다. 그 문 앞에는 신발 한 켤레가 가지런히 놓여 있고, 안쪽에서 누군가 숨을 쉬는 소리가 들린다. 초를 끄고, 나는 반대편 계단으로 걸어간다. 초는 아직 반쯤 남았다."},
+        {label:"가장 가까운 1201호 문을 연다", to:"n12",
+         fx:{sanity:-24, score:-10},
+         outcome:"문 안은 벽이다. 벽지가 발라진 벽이 문 바로 뒤에 붙어 있다. 벽에서 손톱이 긁히는 소리가 난다. 나는 문을 닫는다. 닫는 순간, 문 안쪽에서 누군가 '늦었어'라고 말했다."},
+        {label:"벽에 귀를 대고 숨소리를 찾는다", to:"n12", notFlag:"noEar",
+         fx:{score:8, sanity:-10},
+         outcome:"세 개의 문. 그중 하나에서만 숨소리가 난다. 1202호. 나는 그 문을 열지 않고 복도 끝 계단으로 걸어간다. 뒤에서 문 하나가 열리는 소리가 났지만 돌아보지 않았다."},
+        {label:"문 셋을 차례로 두드려 본다", to:"n12",
+         fx:{sanity:-30, score:-12, violation:true},
+         outcome:"첫 번째 문, 두 번째 문. 세 번째 문을 두드리려는데, 이미 두드려져 있다. 내 손이 닿기 전에. 문 셋이 동시에 열리고, 안쪽에서 같은 목소리가 셋으로 갈라져 말한다. \"두 번은 안 된다고 했잖아.\""}
+      ]
+    },
+
+    n12:{
+      d:12, time:"16:55", chapter:"DAY 1 · 16:55", place:"13층 · D조 사무실",
+      title:"눈금 88",
+      p:[
+        "저택에서 나오면 12층 회의실이다. 꿈결 수집기의 눈금이 <b>88</b>까지 차 있다. 은하제가 내 어깨를 툭 친다. \"살아 나왔네. 신입이 B급에서 살아 나온 건… 15기 이후로 처음이야.\"",
+        "그녀가 수집기를 들여다본다. \"이거 반납 안 하면 포인트 되게 많이 붙어. 대신…\" 말을 흐린다. \"됐어. 오늘은 여기까지. 야근은 자율이야.\"",
+        "시계는 16:55. 창밖은 벌써 어둡다. 사무실 벽의 '안전제일' 표어에서 '안' 자만 여전히 빨갛다."
+      ],
+      choices:[
+        {label:"은하제에게 오늘 본 것을 전부 말한다", to:"n13",
+         fx:{score:8, sanity:8},
+         outcome:"은하제는 중간에 한 번 웃고, 한 번 욕하고, 마지막에는 아무 말도 하지 않는다. \"…내일 아침에 조장님한테 같이 말하자. 혼자 말하면 너만 이상한 애 돼.\" 커피를 한 잔 더 타 온다."},
+        {label:"수집기의 눈금을 확인한다", to:"n13",
+         fx:{sanity:-5, score:6},
+         outcome:"88. 그런데 눈금 아래에 아주 작은 글씨가 있다. 「잔여 12는 회사 몫」. 수집기를 흔들자 안에서 물소리가 난다. 편의점에서 들었던 그 소리."},
+        {label:"혼자 노트에 기록해 둔다", to:"n13",
+         fx:{score:4, sanity:-4, items:["note"]},
+         outcome:"노트에 오늘의 어둠 두 개를 적는다. Qterw-F-243, 그리고 저택. 적다 보니 손이 떨린다. 떨림이 멈추지 않아서 노트를 덮었다."}
+      ]
+    },
+
+    n13:{
+      d:13, time:"21:48", chapter:"DAY 1 · 21:48", place:"13층 · D조 사무실 (야근)",
+      title:"꿈결 반납 안내",
+      p:[
+        "21시 48분. 은하제는 퇴근했고, 사무실에는 나와 박민성뿐이다. 박민성은 아까부터 같은 서류를 세 번째 읽고 있다.",
+        "메일이 도착한다. 발신: 원료개발부 인사팀. 제목: 「금일 꿈결 반납 안내」. 본문: 「정시 퇴근을 희망하는 사원은 <b>22:00까지</b> 당일 수집분을 전량 반납하십시오. 미반납분은 인사평가에 반영됩니다.」",
+        "수집기의 눈금은 88. 반납하면 0, 반납하지 않으면 88이 내 것이 된다. 22시까지 12분."
+      ],
+      choices:[
+        {label:"꿈결을 전량 반납한다", to:"n14",
+         fx:{score:10, sanity:5, flags:{returnDream:true}},
+         outcome:"수집기의 뚜껑을 열자 88이 0으로 돌아간다. 반납구의 형광등이 아주 잠깐 밝아졌다. 박민성이 고개를 끄덕인다. \"잘했어. 나는 저거 안 반납했다가…\" 말을 삼킨다. 「제13조」"},
+        {label:"수집기를 사원증 케이스 안에 숨긴다", to:"n14",
+         fx:{score:8, sanity:-8, flags:{hideDream:true}},
+         outcome:"수집기를 케이스에 넣자 케이스가 두 배로 무거워졌다. 반납 마감 시각, 사무실 스피커에서 안내 방송이 흐른다. 「미반납 사원은 자동으로 잔류 처리됩니다.」 박민성이 나를 본다. \"…너 이거, 진짜 괜찮아?\""},
+        {label:"박민성의 서류를 들여다본다", to:"n14",
+         fx:{sanity:-10, score:4, flags:{}},
+         outcome:"서류는 3년 전 날짜의 사고 보고서다. 사망자 4명, 전원 현장탐사팀. 마지막 줄에 손톱으로 눌러쓴 글씨. 「나도 아직 여기 있다.」"},
+        {label:"아무것도 하지 않고 그냥 퇴근한다", to:"n14",
+         fx:{sanity:-6, score:-8, flags:{}},
+         outcome:"22시 정각, 사무실 조명이 알아서 꺼진다. 내 자리만 남기고. 수집기는 책상 위에 그대로 있다. 게이트에 사원증을 대자 화면이 뜬다. 「꿈결 미반납 — 자동 이월」."}
+      ]
+    },
+
+    n14:{
+      d:14, time:"22:10", chapter:"DAY 1 · 22:10", place:"13층 · 복도",
+      title:"1301호의 불",
+      p:[
+        "22시 10분. 13층 복도는 소등됐지만, 끝쪽 <b>1301호</b>만 불이 켜져 있다. 문틈으로 새어 나오는 빛이 사람 그림자 모양으로 바닥에 누워 있다.",
+        "엘리베이터는 13층에 서지 않는다. 12층까지 걸어 내려가야 한다. 비상계단 문은 닫혀 있고, 손잡이에 '화재 시에만' 팻말이 붙어 있다.",
+        "수집기가 품 안에서 한 번 웅웅거린다."
+      ],
+      choices:[
+        {label:"1301호를 지나쳐 12층으로 걸어 내려간다", to:"n15",
+         fx:{score:8},
+         outcome:"불 켜진 문을 지날 때, 문 아래 그림자가 움직였다. 문을 열지 않았기 때문에 아무 일도 없었다. 계단참에서 뒤를 보니 1301호의 불이 꺼져 있다. 「제11조」"},
+        {label:"1301호 문을 두드린다", to:"n14b",
+         fx:{sanity:-8, violation:true},
+         outcome:"세 번 두드렸다. 안에서 의자가 밀리는 소리. 문이 열린다."},
+        {label:"비상계단으로 내려간다", to:"n15",
+         fx:{sanity:-12, score:-6, violation:true},
+         outcome:"문을 열자 계단은 위로만 이어져 있다. 아래로 내려가는 계단이 없다. 12층 팻말이 붙은 층에 서서 다시 문을 열면 이번엔 13층이다. 세 번을 반복하고 나서야 1층 로비가 나왔다."},
+        {label:"명함의 번호로 전화를 건다", req:"card", to:"__phone__",
+         fx:{sanity:-5},
+         outcome:function(){
+           if(clues() >= 3){ return "010-0153-24865. 두 번의 신호음 끝에 상대가 먼저 이름을 말한다. — 「초자연 재난관리국, 9급 요원입니다. 사원증은 아직 가지고 계시죠?」 나는 대답하지 않고, 전화를 끊지도 않았다. 「제12조」"; }
+           return "신호음만 일곱 번 울리고 끊겼다. 다시 걸자 이번엔 「없는 번호입니다」라는 안내가 들린다. 복도 끝 1301호의 불이 꺼진다.";
+         },
+         after:function(){
+           if(clues() >= 3){ S.flags.agency = true; return "__ending_agency__"; }
+           return "n15";
+         }}
+      ]
+    },
+
+    n14b:{
+      d:15, time:"22:14", chapter:"DAY 1 · 22:14", place:"1301호 · 안",
+      title:"조장의 책상",
+      p:[
+        "안에는 이자헌 조장이 앉아 있다. 외근이라고 했던 사람이다. 책상에는 서류가 산더미인데, 전부 날짜가 3년 전이다.",
+        "\"왔구나.\" 그가 고개를 든다. 눈이 좀처럼 초점이 맞지 않는다. \"사원증, 내가 보관해도 될까? 네가 퇴근하면 반납해야 하는데, 자꾸 잊어버려서.\""
+      ],
+      choices:[
+        {label:"사원증을 건넨다", to:"__death_handover__",
+         fx:{},
+         outcome:"사원증이 손에서 떠나자, 조장의 얼굴이 아주 잠깐 다른 얼굴이 된다. 아까 로비의 김하늘, 아까 저택의 안내 기계. 「신분 양도 완료.」 1301호의 불이 꺼진다. 복도는 처음부터 비어 있었다."},
+        {label:"\"이름은 회사가 부를 때만 답합니다\"", to:"n15",
+         fx:{score:12, items:["doc"]},
+         outcome:"조장이 한참 나를 본다. 그러다 웃는다. \"하, 수칙서 제대로 읽었네.\" 책상 위 서류를 한 장 들어 준다. 「재난관리국 협조 요청서」. \"이건 내일 얘기하자. 오늘은 퇴근해.\" 「제3조」"},
+        {label:"사원증을 보여만 주고 거두어들인다", req:"badge", to:"n15",
+         fx:{score:6, sanity:-10},
+         outcome:"조장이 사원증을 유심히 본다. \"17-0417. …맞네.\" 그는 손을 내려놓는다. \"가.\" 문을 나서는데, 등 뒤에서 서류가 무너지는 소리가 났다."},
+        {label:"문을 닫고 뛴다", to:"n15",
+         fx:{sanity:-16, score:-4},
+         outcome:"복도는 3년 전의 복도다. 벽 페인트가 벗겨져 있고, '안전제일' 표어의 '안' 자가 없다. 계단을 내려가면서 뒤를 돌아보지 않았다."}
+      ]
+    },
+
+    n15:{
+      d:15, time:"23:00", chapter:"DAY 1 · 23:00", place:"1층 · 로비",
+      title:"퇴근",
+      p:[
+        "1층 로비. 게이트가 열린다. 리더기 화면에 오늘 마지막 기록이 뜬다. 「17-0417 · 퇴근」",
+        "유리문 밖은 사택 골목이다. 형광등이 하나 죽어 있고, 그 아래 누군가 서 있다.",
+        "정문을 나서려는 순간, 뒤에서 엘리베이터가 열린다. 문이 열린 <b>13층 버튼</b>이 반짝이고 있다. 아무도 타고 있지 않다."
+      ],
+      choices:[
+        {label:"그냥 나간다. 뒤는 돌아보지 않는다", resolve:true,
+         fx:{score:4},
+         outcome:"유리문이 닫힌다. 골목의 형광등 아래에는 아무도 없다. 발소리 하나가 내 뒤를 따라오다가, 사택 계단 앞에서 멈췄다."},
+        {label:"리더기에 사원증을 한 번 더 대고, 반납함에 넣는다", resolve:true,
+         fx:{score:2},
+         outcome:"반납함에 사원증이 떨어진다. 리더기가 한 번 더 읽는다. 「17-0417 · 퇴근 · 반납 완료」. 등 뒤의 엘리베이터가 닫힌다. 13층 버튼이 마지막으로 한 번 깜빡였다."},
+        {label:"엘리베이터를 보고, 13층 버튼을 다시 누른다", resolve:true, fatal:true,
+         fx:{sanity:-30, score:-12, violation:true},
+         outcome:"버튼이 손끝에서 따뜻하다. 문이 닫히고, 층 표시가 13에서 멈춘다. 문이 열리면 익숙한 복도다. 사무실 불이 켜져 있고, 내 책상에 누군가 앉아 있다. 나와 똑같은 사원증을 목에 걸고."}
+      ]
+    }
+  };
+
+  /* =========================================================
+     안전한 저장소 (localStorage 접근이 예외를 던지는 환경 대응)
+     - iOS WebView / file:// / 샌드박스 iframe / 사생활 보호 모드에서
+       window.localStorage 접근 또는 setItem 이 SecurityError·QuotaError 를 던진다.
+     - 모든 접근을 safeGet / safeSet / safeRemove 로 감싸고,
+       실패하면 메모리 저장소로 자동 폴백한다. (게임 진행은 계속된다)
+     ========================================================= */
+  var memStore = {};
+  var storeMode = "memory";
+
+  function probeStorage(){
+    try{
+      if(!window.localStorage) return "memory";
+      var k = "__bdm_probe__";
+      window.localStorage.setItem(k, "1");
+      window.localStorage.removeItem(k);
+      return "local";
+    }catch(e){
+      return "memory";
+    }
+  }
+  storeMode = probeStorage();
+
+  function safeGet(key){
+    if(storeMode === "local"){
+      try{ return window.localStorage.getItem(key); }
+      catch(e){ storeMode = "memory"; }
+    }
+    return Object.prototype.hasOwnProperty.call(memStore, key) ? memStore[key] : null;
+  }
+  function safeSet(key, value){
+    memStore[key] = value;
+    if(storeMode === "local"){
+      try{ window.localStorage.setItem(key, value); return true; }
+      catch(e){ storeMode = "memory"; }
+    }
+    return false;
+  }
+  function safeRemove(key){
+    try{ delete memStore[key]; }catch(e){ memStore[key] = null; }
+    if(storeMode === "local"){
+      try{ window.localStorage.removeItem(key); }
+      catch(e){ storeMode = "memory"; }
+    }
+  }
+
+  /* =========================================================
+     STATE
+     ========================================================= */
+  var S = null;         // 현재 판
+  var cur = null;       // 현재 노드
+  var pending = null;   // 선택 결과 대기 중인 선택지
+  var navLock = false;  // 중복 탭/더블클릭 방지
+  var booted = false;
+
+  function freshState(){
+    return {
+      day:1, time:"07:59", sanity:100, score:0,
+      items:[], flags:{}, violations:0,
+      log:[], node:"n01", cleared:0
+    };
+  }
+
+  function has(id){ return !!S && S.items.indexOf(id) !== -1; }
+  function clues(){ return S.items.filter(function(i){ return ITEMS[i] && ITEMS[i].k === "clue"; }).length; }
+  function itemsOnly(){ return S.items.filter(function(i){ return ITEMS[i] && ITEMS[i].k === "item"; }); }
+  function clamp(v,a,b){ return Math.max(a, Math.min(b, v)); }
+  function stripTags(s){ return String(s).replace(/<[^>]*>/g, ""); }
+
+  /* =========================================================
+     등장인물 태그(컷별) · 소품 카드
+     ========================================================= */
+  var CAST_COLOR = {
+    "나":"me", "은하제":"cy", "박민성":"am", "이자헌":"vi", "김하늘":"ro", "아주머니":"mi"
+  };
+  var CAST = {
+    n01:["나"], n02:["나","김하늘"], n03:["은하제","박민성"], n04:["나"], n05:["나"],
+    n06:["은하제","박민성"], n07:["은하제"], n08:["김하늘"], n09:["아주머니"],
+    n10:["은하제"], n11:["은하제"], n12:["은하제"], n13:["박민성"], n14:["나"],
+    n14b:["이자헌"], n15:["나"]
+  };
+  var PROPS = {
+    n13:{ kind:"doc", badge:"사내메일", head:"발신 · 원료개발부 인사팀", title:"금일 꿈결 반납 안내",
+          lines:["정시 퇴근 희망자 · 22:00 마감", "미반납분은 인사평가에 반영"],
+          sig:"— 인사팀 · 자동발송" }
+  };
+
+  /* =========================================================
+     RENDER HELPERS
+     ========================================================= */
+  // 따옴표로 묶인 대사/규정 인용을 웹툰식 강조로 감싼다. (태그 내부는 건드리지 않는다)
+  var EMPH_RE = /「[^」]{0,140}」|"[^"<]{0,180}"/g;
+  function emphasize(html){
+    return String(html).split(/(<[^>]*>)/).map(function(part, i){
+      if(i % 2 === 1) return part;               // HTML 태그는 그대로
+      return part.replace(EMPH_RE, function(m){ return '<span class="dq">' + m + '</span>'; });
+    }).join("");
+  }
+
+  /* 대사창 분리 --------------------------------------------------
+     문단 안에 들어 있던 대사(따옴표로 묶인 한 줄)를 웹툰 대사창으로
+     따로 빼 준다. 문장은 한 글자도 바꾸지 않고 위치만 나누다. */
+  function findQuotePairs(s){
+    var out = [], i = 0;
+    while(i < s.length){
+      var c = s.charAt(i), j;
+      if(c === '"'){
+        j = s.indexOf('"', i + 1);
+        if(j === -1) break;
+        out.push({ a:i, b:j, kind:'say' });
+        i = j + 1;
+      }else if(c === '「'){
+        j = s.indexOf('」', i + 1);
+        if(j === -1) break;
+        out.push({ a:i, b:j, kind:'sign' });
+        i = j + 1;
+      }else{
+        i++;
+      }
+    }
+    return out;
+  }
+
+  function splitForBubble(t){
+    var s = String(t);
+    var pairs = findQuotePairs(s);
+    var kinds = ['say'];                  // 큰따옴표 대사만 대사창으로 (「」 안내문은 본문 강조로 둔다)
+    for(var k = 0; k < kinds.length; k++){
+      for(var p = 0; p < pairs.length; p++){
+        var q = pairs[p];
+        if(q.kind !== kinds[k]) continue;
+        var inner = s.slice(q.a, q.b + 1);
+        if(inner.length < 14) continue;
+        if(inner.indexOf('<') !== -1 || inner.indexOf('>') !== -1) continue;
+        var pre = s.slice(0, q.a);
+        var post = s.slice(q.b + 1);
+        if(/<[^>]*$/.test(pre)) continue;      // 잘린 태그 방지
+        if(/^\s*<\//.test(post)) continue;     // 닫는 태그가 박스 밖으로 나가는 경우
+        return { pre: pre.trim(), quote: inner, post: post.trim() };
+      }
+    }
+    return null;
+  }
+
+  var $ = function(id){ return document.getElementById(id); };
+  var el = {};
+
+  function cacheDom(){
+    el.hudDay = $("hud-day"); el.hudTime = $("hud-time");
+    el.sanityFill = $("sanity-fill"); el.sanityVal = $("sanity-val"); el.sanityBar = $("sanity-bar");
+    el.scoreVal = $("score-val"); el.clueVal = $("clue-val"); el.invCount = $("inv-count");
+    el.stageFill = $("stage-fill");
+    el.screenTitle = $("screen-title"); el.screenGame = $("screen-game"); el.screenEnd = $("screen-ending");
+    el.sceneChapter = $("scene-chapter"); el.scenePlace = $("scene-place");
+    el.sceneTitle = $("scene-title"); el.sceneText = $("scene-text");
+    el.sceneCast = $("scene-cast"); el.props = $("props");
+    el.outcome = $("outcome"); el.choices = $("choices");
+    el.continueRow = $("continue-row"); el.hintline = $("hintline");
+    el.drawer = $("drawer"); el.scrim = $("scrim"); el.drawerBody = $("drawer-body");
+    el.invBody = $("inv-body"); el.arGrid = $("ar-grid"); el.arCount = $("ar-count"); el.arFill = $("ar-fill");
+    el.storeNote = $("store-note");
+    el.toast = $("toast");
+    el.openHint = $("open-hint");
+    el.fatal = $("fatal"); el.fatalMsg = $("fatal-msg");
+  }
+
+  function toast(msg){
+    if(!el.toast) return;
+    el.toast.textContent = msg;
+    el.toast.className = "toast on";
+    clearTimeout(toast._t);
+    toast._t = setTimeout(function(){ el.toast.className = "toast"; }, 2100);
+  }
+
+  function showFatal(err){
+    if(!el.fatal) return;
+    var m = (err && (err.message || err)) || "알 수 없는 오류";
+    el.fatalMsg.textContent = String(m).slice(0, 160) + " — 페이지를 새로 열거나 Safari에서 실행해 주세요.";
+    el.fatal.hidden = false;
+  }
+
+  // iOS 사파리에서 behavior 옵션이 문제를 일으키지 않도록 감싼다
+  function scrollTop(smooth){
+    try{
+      if(smooth && "scrollBehavior" in document.documentElement.style){
+        window.scrollTo({ top:0, behavior:"smooth" });
+      }else{
+        window.scrollTo(0, 0);
+      }
+    }catch(e){
+      try{ window.scrollTo(0, 0); }catch(e2){}
+    }
+  }
+
+  /* =========================================================
+     HUD
+     ========================================================= */
+  function renderHUD(){
+    if(!S || !el.hudDay) return;
+    el.hudDay.textContent = "DAY " + S.day;
+    el.hudTime.textContent = S.time;
+    var sv = clamp(Math.round(S.sanity), 0, 100);
+    if(el.sanityVal) el.sanityVal.textContent = sv;
+    if(el.sanityFill) el.sanityFill.style.width = sv + "%";
+    if(el.sanityBar){
+      el.sanityBar.className = "bar" + (sv <= 25 ? " crit" : (sv <= 55 ? " low" : ""));
+    }
+    if(el.scoreVal) el.scoreVal.textContent = S.score;
+    if(el.clueVal) el.clueVal.textContent = clues();
+    if(el.invCount) el.invCount.textContent = itemsOnly().length;
+    if(el.stageFill){
+      var d = cur ? cur.d : 1;
+      el.stageFill.style.width = Math.min(100, Math.round(d / 15 * 100)) + "%";
+    }
+  }
+
+  /* =========================================================
+     SCENE
+     ========================================================= */
+  function renderNode(id){
+    var node = NODES[id];
+    if(!node){ toast("페이지를 찾을 수 없습니다."); return; }
+    cur = node;
+    S.node = id;
+    S.time = node.time;
+
+    el.screenTitle.hidden = true;
+    el.screenEnd.hidden = true;
+    el.screenGame.hidden = false;
+
+    el.sceneChapter.textContent = node.chapter;
+    el.scenePlace.textContent = node.place;
+    el.sceneTitle.textContent = node.title;
+
+    // 등장인물 태그
+    var castList = CAST[id] || [];
+    var ch = "";
+    castList.forEach(function(name){
+      var cls = CAST_COLOR[name] || "me";
+      ch += '<span class="tag ' + cls + '">' + name + '</span>';
+    });
+    el.sceneCast.innerHTML = ch;
+    el.sceneCast.hidden = castList.length === 0;
+
+    // 본문 (대사는 대사창으로 분리)
+    var ph = "";
+    var seq = 0;
+    function delay(){ var d = (0.05 + seq * 0.08).toFixed(2) + "s"; seq++; return d; }
+    node.p.forEach(function(t){
+      var sp = splitForBubble(t);
+      if(!sp){
+        ph += "<p style='animation-delay:" + delay() + "'>" + emphasize(t) + "</p>";
+        return;
+      }
+      if(sp.pre) ph += "<p style='animation-delay:" + delay() + "'>" + emphasize(sp.pre) + "</p>";
+      var bub = sp.quote.replace(/^"|"$/g, "");
+      ph += "<div class='bubble' style='animation-delay:" + delay() + "'>" + emphasize(bub) + "</div>";
+      if(sp.post) ph += "<p style='animation-delay:" + delay() + "'>" + emphasize(sp.post) + "</p>";
+    });
+    el.sceneText.innerHTML = ph;
+
+    // 소품(쪽지·사내문서)
+    el.props.innerHTML = renderProp(id);
+
+    el.outcome.hidden = true;
+    el.outcome.innerHTML = "";
+    el.continueRow.hidden = true;
+    el.continueRow.innerHTML = "";
+    if(el.choices) el.choices.style.pointerEvents = "";
+    if(el.hintline) el.hintline.innerHTML = "수칙서가 기억나지 않으면 상단 <b>수칙서</b>를 여십시오. (키보드 1–4로도 선택)";
+
+    if(id === "n06") S.cleared = Math.max(S.cleared, 1);
+    if(id === "n12") S.cleared = Math.max(S.cleared, 2);
+
+    renderChoices(node);
+    renderHUD();
+    scrollTop(true);
+  }
+
+  function renderProp(id){
+    var p = PROPS[id];
+    if(!p) return "";
+    if(p.kind === "memo"){
+      var ls = p.lines.map(function(l){ return "「" + l + "」"; }).join("<br>");
+      return '<div class="prop"><div class="memo-card"><span class="tape"></span>' +
+             '<div class="from">' + p.from + '</div>' +
+             '<div class="txt">' + ls + '</div>' +
+             '</div></div>';
+    }
+    var body = p.lines.map(function(l){ return emphasize(l); }).join("<br>");
+    return '<div class="prop"><div class="doc-card">' +
+           '<div class="head"><span class="bd">' + p.badge + '</span>' + p.head + '</div>' +
+           '<div class="ttl">' + p.title + '</div>' +
+           '<p>' + body + '</p>' +
+           '<div class="sig">' + p.sig + '</div>' +
+           '</div></div>';
+  }
+
+  function isLocked(c){
+    if(c.req && !has(c.req)) return true;
+    if(c.notFlag && S.flags[c.notFlag]) return true;
+    return false;
+  }
+
+  function renderChoices(node){
+    if(!el.choices) return;
+    var frag = document.createDocumentFragment();
+    node.choices.forEach(function(c, i){
+      var b = document.createElement("button");
+      b.type = "button";
+      b.className = "choice";
+      b.setAttribute("data-i", String(i));
+      b.style.animationDelay = (0.06 + i * 0.06).toFixed(2) + "s";
+      var locked = isLocked(c);
+      if(locked) b.classList.add("locked");
+      var note = "";
+      if(c.req && !has(c.req)) note = "<span class='req'>🔒 소지품 필요 · " + ITEMS[c.req].n + "</span>";
+      if(c.notFlag && S.flags[c.notFlag]) note = "<span class='req'>🔒 지금은 할 수 없습니다</span>";
+      b.innerHTML = "<span class='num'>" + (i + 1) + "</span>" +
+                    "<span class='txt'>" + emphasize(c.label) + note + "</span>" +
+                    "<span class='arrow'>→</span>";
+      frag.appendChild(b);
+    });
+    el.choices.innerHTML = "";
+    el.choices.appendChild(frag);
+  }
+
+  /* =========================================================
+     FLOW
+     ========================================================= */
+  function pick(i){
+    if(!cur || pending || navLock) return;
+    var c = cur.choices[i];
+    if(!c) return;
+    if(isLocked(c)){
+      toast(c.req ? ("소지품이 없습니다 · " + ITEMS[c.req].n) : "지금은 선택할 수 없습니다.");
+      return;
+    }
+    pending = c;
+
+    var deltas = [];
+    var fx = c.fx || {};
+    if(typeof fx.sanity === "number" && fx.sanity !== 0){
+      S.sanity = clamp(S.sanity + fx.sanity, 0, 100);
+      deltas.push({ t:"정신력 " + (fx.sanity > 0 ? "+" : "") + fx.sanity, cls: fx.sanity > 0 ? "plus" : "minus" });
+    }
+    if(typeof fx.score === "number" && fx.score !== 0){
+      S.score = clamp(S.score + fx.score, -50, 120);
+      deltas.push({ t:"인사평가 " + (fx.score > 0 ? "+" : "") + fx.score, cls: fx.score > 0 ? "plus" : "minus" });
+    }
+    if(fx.violation){
+      S.violations++;
+      deltas.push({ t:"규정 위반 +1", cls:"warn" });
+    }
+    if(fx.items){
+      fx.items.forEach(function(id){
+        if(!has(id)){ S.items.push(id); deltas.push({ t:"+" + ITEMS[id].n, cls:"item" }); }
+      });
+    }
+    if(fx.flags){
+      Object.keys(fx.flags).forEach(function(k){ S.flags[k] = fx.flags[k]; });
+    }
+
+    var text = (typeof c.outcome === "function") ? c.outcome() : c.outcome;
+    var good = (fx.score || 0) > 0 && (fx.sanity || 0) >= 0;
+    var bad = (fx.sanity || 0) < 0 || (fx.score || 0) < 0;
+
+    el.outcome.hidden = false;
+    el.outcome.innerHTML =
+      "<div class='record " + (bad ? "bad" : (good ? "good" : "")) + "'>" +
+        "<div class='lbl'><i>기록</i> " + cur.time + "</div>" +
+        "<p>" + emphasize(text) + "</p>" +
+        (deltas.length ? "<div class='deltas'>" + deltas.map(function(d){
+          return "<span class='delta " + d.cls + "'>" + d.t + "</span>";
+        }).join("") + "</div>" : "") +
+      "</div>";
+
+    S.log.push({ t: cur.time, s: stripTags(c.label).slice(0, 34) });
+
+    Array.prototype.forEach.call(el.choices.children, function(b){
+      b.disabled = true;
+      b.style.opacity = ".3";
+    });
+    el.choices.style.pointerEvents = "none";
+
+    el.continueRow.hidden = false;
+    el.continueRow.innerHTML = "";
+    var btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "cta";
+    btn.textContent = c.resolve ? "결과 확인" : (c.to === "__phone__" ? "수화기 너머" : "계속");
+    btn.addEventListener("click", function(){ advance(c); }, false);
+    el.continueRow.appendChild(btn);
+
+    renderHUD();
+    setTimeout(function(){
+      try{
+        if(el.continueRow && el.continueRow.scrollIntoView){
+          el.continueRow.scrollIntoView({ block:"nearest" });
+        }
+      }catch(e){}
+    }, 90);
+  }
+
+  function advance(c){
+    if(!c || navLock) return;
+    navLock = true;
+    setTimeout(function(){ navLock = false; }, 260);
+
+    var target = null, ending = null;
+
+    if(c.resolve){
+      ending = resolveEnding(c);
+    }else if(c.to === "__death_handover__"){
+      S.sanity = 0;
+      ending = "e_lost";
+    }else if(c.to === "__phone__"){
+      var next = c.after ? c.after() : "n15";
+      if(next === "__ending_agency__"){ ending = "e_agency"; }
+      else if(S.sanity <= 0){ ending = "e_lost"; }
+      else { target = next; }
+    }else if(S.sanity <= 0){
+      ending = "e_lost";
+    }else{
+      target = (typeof c.to === "function") ? c.to() : c.to;
+    }
+
+    pending = null;
+
+    if(ending){ finish(ending); return; }
+    if(target && NODES[target]){ renderNode(target); return; }
+    toast("다음 페이지를 찾을 수 없습니다.");
+    if(el.continueRow) el.continueRow.hidden = true;
+  }
+
+  function resolveEnding(c){
+    if(S.flags.agency) return "e_agency";
+    if(c && c.fatal) return "e_lost";
+    if(S.sanity <= 0) return "e_lost";
+    if(S.violations >= 4) return "e_lastteam";
+    if(S.score >= 72) return "e_promotion";
+    if(S.score >= 38) return "e_offwork";
+    if(S.score >= 10) return "e_warning";
+    return "e_lastteam";
+  }
+
+  /* =========================================================
+     ENDING
+     ========================================================= */
+  function finish(id){
+    var e = ENDINGS[id];
+    if(!e) return;
+    cur = null; pending = null;
+    S.time = "23:59";
+
+    var arc = loadArchive();
+    var isNew = !arc[id];
+    if(isNew){
+      arc[id] = { date: todayStr() };
+      saveArchive(arc);
+    }
+
+    el.screenGame.hidden = true;
+    el.screenTitle.hidden = true;
+    el.screenEnd.hidden = false;
+
+    $("end-code").textContent = "ENDING " + e.code;
+    $("end-stamp").textContent = e.stamp;
+    $("end-name").textContent = e.name;
+    $("end-sub").textContent = e.sub + " · 등급 " + e.grade;
+
+    var bh = "";
+    e.body.forEach(function(t, i){
+      bh += "<p style='animation-delay:" + (0.04 + i * 0.08).toFixed(2) + "s'>" + emphasize(t) + "</p>";
+    });
+    $("end-body").innerHTML = bh;
+
+    $("end-stats").innerHTML =
+      stat("정신력", clamp(Math.round(S.sanity), 0, 100)) +
+      stat("인사평가", S.score + " pt") +
+      stat("규정 위반", S.violations + "회") +
+      stat("확보 단서", clues() + "개") +
+      stat("소지품", itemsOnly().length + "개") +
+      stat("어둠 통과", (S.cleared || 0) + "건");
+
+    $("end-new").innerHTML = isNew
+      ? "<div class='newbadge'>✦ 새로운 엔딩을 도감에 기록했습니다 · " + e.code + "</div>"
+      : "<div class='newbadge dim'>이미 수집한 엔딩입니다 · " + e.code + "</div>";
+
+    renderHUD();
+    if(el.stageFill) el.stageFill.style.width = "100%";
+    scrollTop(true);
+    if(isNew) toast("엔딩 도감에 " + e.code + " 기록");
+  }
+
+  function stat(k, v){
+    return "<div><span>" + k + "</span><b>" + v + "</b></div>";
+  }
+
+  /* =========================================================
+     ARCHIVE (저장)
+     ========================================================= */
+  function loadArchive(){
+    try{
+      var raw = safeGet(ARCH_KEY);
+      if(!raw) return {};
+      var o = JSON.parse(raw);
+      return (o && typeof o === "object") ? o : {};
+    }catch(e){ return {}; }
+  }
+  function saveArchive(o){
+    try{ safeSet(ARCH_KEY, JSON.stringify(o)); }catch(e){}
+  }
+  function todayStr(){
+    var d = new Date();
+    var m = ("0" + (d.getMonth() + 1)).slice(-2);
+    var dd = ("0" + d.getDate()).slice(-2);
+    return d.getFullYear() + "." + m + "." + dd;
+  }
+
+  /* =========================================================
+     수칙서 / 모달
+     ========================================================= */
+  function renderRules(){
+    var h = "";
+    RULES.forEach(function(r){
+      h += "<div class='rule'>" +
+             "<div class='no'>" + r.no + "</div>" +
+             "<h3>" + r.t + "</h3>" +
+             "<p>" + r.b + "</p>" +
+             (r.s ? "<p class='small'>" + r.s + "</p>" : "") +
+           "</div>";
+    });
+    h += "<div class='today'><div class='k'>추가 조항 · 오늘</div><p>「오늘의 손님은 한 분입니다.」<br>— 인사팀 · 04:00 갱신</p></div>";
+    h += "<div class='rule' style='border-bottom:none;opacity:.6'><div class='no'>부칙</div>" +
+         "<p>본 수칙서에 기재되지 않은 사항은 사원의 판단에 따릅니다. 사원의 판단으로 발생한 손실은 사원이 부담합니다. " +
+         "회사는 사원의 판단을 기록합니다.</p></div>";
+    el.drawerBody.innerHTML = h;
+  }
+
+  function openDrawer(){
+    renderRules();
+    el.drawer.classList.add("open");
+    el.drawer.setAttribute("aria-hidden", "false");
+    el.scrim.classList.add("open");
+  }
+  function closeDrawer(){
+    el.drawer.classList.remove("open");
+    el.drawer.setAttribute("aria-hidden", "true");
+    el.scrim.classList.remove("open");
+  }
+  function openModal(id){ var m = $(id); if(m) m.classList.add("open"); }
+  function closeModal(id){ var m = $(id); if(m) m.classList.remove("open"); }
+  function anyModalOpen(){ return !!document.querySelector(".modal.open"); }
+
+  function renderInventory(){
+    if(!el.invBody) return;
+    if(!S){ el.invBody.innerHTML = "<div class='empty'>출근 전입니다.</div>"; return; }
+    var its = itemsOnly();
+    var cls = S.items.filter(function(i){ return ITEMS[i] && ITEMS[i].k === "clue"; });
+    var h = "";
+    h += "<div class='inv-group'><div class='k'>소지품 · " + its.length + "</div>";
+    if(!its.length) h += "<div class='empty'>아무것도 없습니다.</div>";
+    its.forEach(function(id){
+      h += "<div class='inv-item'><span class='ic'>ITEM</span><div><div class='n'>" + ITEMS[id].n +
+           "</div><div class='d'>" + ITEMS[id].d + "</div></div></div>";
+    });
+    h += "</div>";
+    h += "<div class='inv-group'><div class='k'>단서 · " + cls.length + "</div>";
+    if(!cls.length) h += "<div class='empty'>아직 아무것도 알아내지 못했습니다.</div>";
+    cls.forEach(function(id){
+      h += "<div class='inv-item clue'><span class='ic'>CLUE</span><div><div class='n'>" + ITEMS[id].n +
+           "</div><div class='d'>" + ITEMS[id].d + "</div></div></div>";
+    });
+    h += "</div>";
+    h += "<div class='inv-group'><div class='k'>오늘의 기록 · " + S.log.length + "</div>";
+    if(!S.log.length) h += "<div class='empty'>기록 없음.</div>";
+    else{
+      h += "<ul class='loglist'>";
+      S.log.slice(-14).forEach(function(l){ h += "<li><b>" + l.t + "</b>" + l.s + "</li>"; });
+      h += "</ul>";
+    }
+    h += "</div>";
+    el.invBody.innerHTML = h;
+  }
+
+  var ARCH_IDS = ["e_offwork","e_promotion","e_warning","e_lost","e_lastteam","e_agency"];
+
+  function renderArchive(){
+    var arc = loadArchive();
+    var got = ARCH_IDS.filter(function(id){ return !!arc[id]; }).length;
+    if(el.arCount) el.arCount.textContent = got + " / " + ARCH_IDS.length;
+    if(el.arFill) el.arFill.style.width = Math.round(got / ARCH_IDS.length * 100) + "%";
+    var h = "";
+    ARCH_IDS.forEach(function(id){
+      var e = ENDINGS[id];
+      var on = !!arc[id];
+      var date = (on && arc[id] && arc[id].date) ? arc[id].date : "";
+      h += "<div class='ar-card " + (on ? "on" : "lock") + "'>" +
+             "<div class='code'>" + e.code + "</div>" +
+             "<div class='nm'>" + (on ? e.name : "???") + "</div>" +
+             "<div class='sb'>" + (on ? (e.sub + " · " + date) : "미발견") + "</div>" +
+             "<div class='hint'>" + (on ? "등급 " + e.grade : "힌트 · " + e.hint) + "</div>" +
+           "</div>";
+    });
+    if(el.arGrid) el.arGrid.innerHTML = h;
+    if(el.storeNote){
+      el.storeNote.innerHTML = (storeMode === "local")
+        ? ""
+        : "<div class='store-note'>이 브라우저에서는 기록을 저장할 수 없어, 지금 화면을 닫으면 도감이 사라집니다.</div>";
+    }
+  }
+
+  function openArchiveModal(){ renderArchive(); openModal("modal-arch"); }
+
+  /* 확인 모달 (window.confirm 대체) */
+  function askConfirm(title, msg, yesLabel, onYes){
+    var t = $("confirm-title"), m = $("confirm-msg"), y = $("confirm-yes"), n = $("confirm-no");
+    if(!t || !y){ if(window.confirm && window.confirm(msg)) onYes(); return; }
+    t.textContent = title;
+    m.textContent = msg;
+    y.textContent = yesLabel || "확인";
+    openModal("modal-confirm");
+    var close = function(){ closeModal("modal-confirm"); y.removeEventListener("click", yes); n.removeEventListener("click", no); };
+    var yes = function(){ close(); try{ onYes(); }catch(e){ showFatal(e); } };
+    var no = function(){ close(); };
+    y.addEventListener("click", yes, false);
+    n.addEventListener("click", no, false);
+  }
+
+  /* =========================================================
+     START
+     ========================================================= */
+  function startGame(){
+    try{
+      S = freshState();
+      pending = null;
+      navLock = false;
+      closeDrawer();
+      closeModal("modal-inv"); closeModal("modal-arch"); closeModal("modal-confirm");
+      renderHUD();
+      renderNode("n01");
+      renderHUD();
+    }catch(e){ showFatal(e); }
+  }
+
+  /* =========================================================
+     EVENTS
+     ========================================================= */
+  function on(id, ev, fn){
+    var n = $(id);
+    if(!n) return;
+    n.addEventListener(ev, function(e){
+      try{ fn(e); }catch(err){ showFatal(err); }
+    }, false);
+  }
+
+  function bindEvents(){
+    on("btn-start", "click", startGame);
+    on("btn-again", "click", startGame);
+
+    on("btn-manual", "click", function(){
+      if(el.drawer.classList.contains("open")) closeDrawer(); else openDrawer();
+    });
+    on("drawer-close", "click", closeDrawer);
+    if(el.scrim) el.scrim.addEventListener("click", closeDrawer, false);
+
+    on("btn-inv", "click", function(){ renderInventory(); openModal("modal-inv"); });
+    on("btn-arch", "click", openArchiveModal);
+    on("btn-arch2", "click", openArchiveModal);
+    on("btn-arch3", "click", openArchiveModal);
+
+    on("btn-arch-reset", "click", function(){
+      askConfirm("도감 기록 초기화", "이 기기에 저장된 엔딩 기록을 모두 지웁니다. 되돌릴 수 없습니다.", "지우기", function(){
+        safeRemove(ARCH_KEY);
+        renderArchive();
+        toast("도감 기록을 초기화했습니다.");
+      });
+    });
+
+    // 선택지: 이벤트 위임 (다시 그려져도 클릭이 살아 있다)
+    if(el.choices){
+      el.choices.addEventListener("click", function(e){
+        var b = e.target;
+        while(b && b !== el.choices && !(b.className && String(b.className).indexOf("choice") !== -1)){ b = b.parentNode; }
+        if(!b || b === el.choices) return;
+        var i = parseInt(b.getAttribute("data-i"), 10);
+        if(isNaN(i)) return;
+        try{ pick(i); }catch(err){ showFatal(err); }
+      }, false);
+    }
+
+    Array.prototype.forEach.call(document.querySelectorAll("[data-close]"), function(b){
+      b.addEventListener("click", function(){ closeModal(b.getAttribute("data-close")); }, false);
+    });
+    Array.prototype.forEach.call(document.querySelectorAll(".modal"), function(m){
+      m.addEventListener("click", function(e){ if(e.target === m) m.classList.remove("open"); }, false);
+    });
+
+    on("fatal-x", "click", function(){ el.fatal.hidden = true; });
+
+    document.addEventListener("keydown", function(e){
+      try{
+        if(e.key === "Escape" || e.keyCode === 27){
+          closeDrawer();
+          closeModal("modal-inv"); closeModal("modal-arch"); closeModal("modal-confirm");
+          return;
+        }
+        if(!el.screenGame || el.screenGame.hidden) return;
+        if(el.drawer.classList.contains("open")) return;
+        if(anyModalOpen()) return;
+        if(pending){
+          if(e.key === "Enter"){
+            var b = el.continueRow.querySelector("button");
+            if(b) b.click();
+          }
+          return;
+        }
+        var n = parseInt(e.key, 10);
+        if(n >= 1 && n <= 9 && cur && cur.choices[n - 1]) pick(n - 1);
+      }catch(err){}
+    }, false);
+
+    window.addEventListener("error", function(ev){
+      if(ev && ev.message){ showFatal(ev.message); }
+    }, false);
+  }
+
+  /* =========================================================
+     BOOT
+     ========================================================= */
+  function boot(){
+    cacheDom();
+    bindEvents();
+    renderArchive();
+    renderHUD();
+    // JS가 정상 실행되었으므로 실행 안내 문구를 감춘다.
+    if(el.openHint) el.openHint.hidden = true;
+  }
+
+  function safeBoot(){
+    if(booted) return;
+    booted = true;
+    try{ boot(); }
+    catch(e){ showFatal(e); }
+  }
+
+  if(document.readyState === "loading"){
+    document.addEventListener("DOMContentLoaded", safeBoot, false);
+    setTimeout(safeBoot, 1500);   // DOMContentLoaded 가 오지 않는 뷰어 대비
+  }else{
+    safeBoot();
+  }
+})();
+</script>
+</body>
+</html>
